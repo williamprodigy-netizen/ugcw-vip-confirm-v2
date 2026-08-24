@@ -62,6 +62,12 @@ button{font-family:inherit}
 .bt td:first-child{white-space:nowrap}
 .bscroll{overflow-x:auto;-webkit-overflow-scrolling:touch}
 @media(max-width:640px){.bt td:first-child{white-space:normal}}
+/* typeform embed */
+.tfwrap{position:relative;border-radius:var(--r);overflow:hidden;background:#fff;
+  box-shadow:0 18px 44px rgba(20,6,38,.10);border:1px solid rgba(124,58,237,.14);
+  height:min(74vh,720px);min-height:560px}
+.tfwrap iframe{width:100%;height:100%;border:0;display:block}
+@media(max-width:640px){.tfwrap{height:min(80vh,640px);min-height:520px}}
 /* merge-field token */
 .tok{display:inline-block;background:rgba(124,58,237,.10);color:#7c3aed;
   border:1px dashed rgba(124,58,237,.45);border-radius:6px;padding:1px 7px;
@@ -475,229 +481,18 @@ footer a{color:var(--mute-2)}
       positioning, niches, visuals and portfolio.</p>
     <p class="sub" style="margin-top:14px"><b style="color:var(--violet-ink)">Takes about 5 minutes.</b>
       &nbsp;Don't know your niche yet? Perfect. We'll help figure that out for you.</p>
+    <p class="sub" style="margin-top:6px">Have 5 photos of yourself ready before you start.</p>
   </div>
 
   <div class="wrap narrow">
-    <div class="card formwrap" id="form">
-
-      <div class="fhead">
-        <div class="pmeta"><span id="pstep">Part 1 of 4</span><span class="r" id="pname">Basic creator identity</span></div>
-        <div class="prog"><i id="pbar"></i></div>
-      </div>
-
-      <div class="fbody">
-
-        <!-- STEP 1 -->
-        <div class="fstep" data-step="1">
-          <div class="stepname">Basic creator identity</div>
-          <div class="stepsub">Quick one. Just so we know who we're building for and where to send it.</div>
-
-          <div class="q">
-            <label class="qlab">What name should we put on your portfolio?</label>
-            <p class="help">However you'd want a brand to see it.</p>
-            <input type="text" value="{{contact.first_name}} {{contact.last_name}}">
-          </div>
-
-          <div class="q">
-            <label class="qlab">What's the best number for your portfolio?</label>
-            <p class="help">This is where we'll text you the moment it's ready.</p>
-            <input type="text" value="{{contact.phone}}" inputmode="tel">
-          </div>
-
-          <div class="q">
-            <label class="qlab">Your Instagram or TikTok handle <span style="font-weight:600;color:var(--mute-2);font-size:14px">(optional)</span></label>
-            <p class="help">Only if you have one. It helps us see how you already show up. Leave it blank if you're starting fresh.</p>
-            <input type="text" placeholder="@yourhandle">
-          </div>
-        </div>
-
-        <!-- STEP 2 -->
-        <div class="fstep" data-step="2" hidden>
-          <div class="stepname">Your lifestyle &amp; interests</div>
-          <div class="stepsub">This is the part that makes your portfolio yours instead of a template.</div>
-
-          <div class="q">
-            <label class="qlab">Tell us a little about your life outside of work.</label>
-            <p class="help">Hobbies, family, pets, sports, travel, fitness, routines or anything you're obsessed with.</p>
-            <textarea placeholder="Two or three sentences is plenty."></textarea>
-          </div>
-
-          <div class="q">
-            <label class="qlab">What's something interesting about you that a brand probably wouldn't know from Instagram?</label>
-            <div class="egs">
-              <span class="eg">&ldquo;I've been a nurse for 15 years.&rdquo;</span>
-              <span class="eg">&ldquo;I've traveled to 30 countries.&rdquo;</span>
-              <span class="eg">&ldquo;I have three rescue dogs.&rdquo;</span>
-              <span class="eg">&ldquo;I'm a retired accountant.&rdquo;</span>
-              <span class="eg">&ldquo;I speak three languages.&rdquo;</span>
-            </div>
-            <textarea placeholder="One line is enough."></textarea>
-          </div>
-
-          <div class="q">
-            <label class="qlab">Where can you realistically film?</label>
-            <p class="help">Pick everything that applies.</p>
-            <div class="opts" data-multi>
-              <div class="opt">Kitchen</div><div class="opt">Living room</div><div class="opt">Bedroom</div>
-              <div class="opt">Bathroom</div><div class="opt">Home office</div><div class="opt">Gym</div>
-              <div class="opt">Car</div><div class="opt">Backyard</div><div class="opt">Outdoors</div>
-              <div class="opt">City</div><div class="opt">Workplace</div><div class="opt">Campus</div>
-              <div class="opt">Beach / pool</div><div class="opt">Somewhere else</div>
-            </div>
-          </div>
-
-          <div class="q">
-            <label class="qlab">What's part of your everyday life that could naturally show up on camera?</label>
-            <p class="help">Only pick what you'd genuinely be happy to include.</p>
-            <div class="opts" data-multi>
-              <div class="opt">My dog</div><div class="opt">My cat</div><div class="opt">Other pets</div>
-              <div class="opt">My kids</div><div class="opt">My partner</div><div class="opt">My car</div>
-              <div class="opt">My kitchen</div><div class="opt">Home gym</div><div class="opt">Gaming setup</div>
-              <div class="opt">My workspace</div><div class="opt">Outdoor space</div><div class="opt">Just me for now</div>
-            </div>
-          </div>
-        </div>
-
-        <!-- STEP 3 -->
-        <div class="fstep" data-step="3" hidden>
-          <div class="stepname">Photos &amp; videos</div>
-          <div class="stepsub">The only part we genuinely can't do without you.</div>
-
-          <div class="q">
-            <label class="qlab">Upload 5&ndash;10 photos of yourself</label>
-            <p class="help">These don't need to be professional. Selfies, lifestyle photos, travel
-              photos, gym photos, work photos, pet photos &mdash; anything that feels like you.</p>
-            <div class="drop" id="drop">
-              <div class="di"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><path d="M17 8l-5-5-5 5M12 3v12"/></svg></div>
-              <div class="dt">Drag your photos here</div>
-              <div class="ds">or tap to choose from your phone &middot; JPG, PNG, HEIC</div>
-              <span class="db">Choose photos</span>
-            </div>
-            <div class="thumbs" id="thumbs"></div>
-            <div class="cnt" id="pcount">0 of 10 &middot; add at least 5</div>
-          </div>
-
-          <div class="q">
-            <label class="qlab">Do you already have videos of yourself?</label>
-            <p class="help">They do <b>not</b> need to be paid brand videos.</p>
-            <div class="opts wide" data-multi data-exclusive="zero" id="vidopts">
-              <div class="opt">TikToks / Reels</div>
-              <div class="opt">Personal videos</div>
-              <div class="opt">UGC / content</div>
-              <div class="opt">Talking-to-camera videos</div>
-              <div class="opt" data-zero>Nope &mdash; I'm completely starting from zero</div>
-            </div>
-
-            <div class="reveal" id="vidreveal">
-              <label class="qlab" style="font-size:15.5px">Upload your videos</label>
-              <p class="help">Up to 10. Anything you already have on your phone works.</p>
-              <div class="drop" id="vdrop">
-                <div class="di"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 10l5-3v10l-5-3z"/><rect x="3" y="6" width="12" height="12" rx="2"/></svg></div>
-                <div class="dt">Add videos</div>
-                <div class="ds">or tap to choose &middot; MP4, MOV</div>
-                <span class="db">Choose videos</span>
-              </div>
-              <div class="thumbs" id="vthumbs"></div>
-              <div class="cnt" id="vcount">0 of 10</div>
-
-              <label class="qlab" style="font-size:15.5px;margin-top:22px">Or paste TikTok / Reel / YouTube links</label>
-              <textarea placeholder="One link per line. No need to tidy them up."></textarea>
-            </div>
-          </div>
-        </div>
-
-        <!-- STEP 4 -->
-        <div class="fstep" data-step="4" hidden>
-          <div class="stepname">Brands &amp; content style</div>
-          <div class="stepsub">Last stretch. This shapes who we pitch you to.</div>
-
-          <div class="q">
-            <label class="qlab">What brands or products do you genuinely use and like?</label>
-            <p class="help">List 5&ndash;10. Example: Nike, CeraVe, Stanley, Oura, Apple.</p>
-            <textarea style="min-height:76px" placeholder="Just the names is fine."></textarea>
-          </div>
-
-          <div class="q">
-            <label class="qlab">What are your dream brands?</label>
-            <p class="help">Give us 3&ndash;5. If you have no idea, write &ldquo;help me choose.&rdquo;</p>
-            <input type="text" placeholder="help me choose">
-          </div>
-
-          <div class="q">
-            <label class="qlab">What kinds of content would you be comfortable creating?</label>
-            <div class="opts" data-multi>
-              <div class="opt">Talking to camera</div><div class="opt">Product demos</div>
-              <div class="opt">Testimonials</div><div class="opt">Voiceovers</div>
-              <div class="opt">Tutorials</div><div class="opt">Unboxings</div>
-              <div class="opt">Lifestyle videos</div><div class="opt">Photography</div>
-              <div class="opt">Comedy / skits</div><div class="opt">Hands-only</div>
-              <div class="opt">I'm not sure yet</div>
-            </div>
-          </div>
-
-          <div class="q">
-            <label class="qlab">Which 3 words describe your personality best?</label>
-            <div class="opts" data-multi data-max="3">
-              <div class="opt">Funny</div><div class="opt">Energetic</div><div class="opt">Warm</div>
-              <div class="opt">Calm</div><div class="opt">Professional</div><div class="opt">Educational</div>
-              <div class="opt">Relatable</div><div class="opt">Direct</div><div class="opt">Trendy</div>
-              <div class="opt">Casual</div><div class="opt">Athletic</div><div class="opt">Quirky</div>
-              <div class="opt">Premium</div><div class="opt">Outdoorsy</div><div class="opt">Inspirational</div>
-            </div>
-            <div class="cnt">0 of 3 chosen</div>
-          </div>
-
-          <div class="q">
-            <label class="qlab">What types of brands would you most like to create for?</label>
-            <p class="help">Choose up to 5.</p>
-            <div class="opts" data-multi data-max="5">
-              <div class="opt">Beauty / skincare</div><div class="opt">Hair</div><div class="opt">Fashion</div>
-              <div class="opt">Fitness</div><div class="opt">Wellness</div><div class="opt">Supplements</div>
-              <div class="opt">Food / beverage</div><div class="opt">Home</div><div class="opt">Parenting</div>
-              <div class="opt">Pets</div><div class="opt">Tech / apps / AI</div><div class="opt">Travel / hotels</div>
-              <div class="opt">Outdoors</div><div class="opt">Gaming</div><div class="opt">Automotive</div>
-              <div class="opt">Education</div><div class="opt">Productivity</div><div class="opt">Finance</div>
-              <div class="opt">Lifestyle</div><div class="opt">Not sure yet</div>
-            </div>
-            <div class="cnt">0 of 5 chosen</div>
-          </div>
-
-          <div class="q">
-            <label class="qlab">Anything you don't want included? <span style="font-weight:600;color:var(--mute-2);font-size:14px">(optional)</span></label>
-            <p class="help">Industries, personal details, family information, photos, topics or
-              types of products you're uncomfortable promoting.</p>
-            <textarea style="min-height:76px" placeholder="Leave blank if nothing comes to mind."></textarea>
-          </div>
-        </div>
-
-      </div>
-
-      <div class="fnav" id="fnav">
-        <button class="btn ghost back" id="back" hidden><span class="lab">Back</span></button>
-        <button class="btn" id="next"><span class="lab">Continue &rarr;</span></button>
-      </div>
-
-      <!-- DONE -->
-      <div class="done-state" id="done">
-        <div class="tick"><svg width="38" height="38" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></div>
-        <h2 class="h2">That's everything &#127881;</h2>
-        <p class="sub" style="max-width:480px;margin-left:auto;margin-right:auto">Our team now has
-          what we need to start building your personalized creator portfolio.</p>
-        <div class="rule" style="margin-top:34px">What happens now</div>
-        <div class="flow">
-          <div class="fi"><b>1</b><span>We review your answers</span></div>
-          <div class="ar">&#9662;</div>
-          <div class="fi"><b>2</b><span>We identify your strongest creator positioning</span></div>
-          <div class="ar">&#9662;</div>
-          <div class="fi"><b>3</b><span>We build your personalized portfolio</span></div>
-          <div class="ar">&#9662;</div>
-          <div class="fi"><b>4</b><span>We text you when it's ready</span></div>
-        </div>
-        <p class="sub" style="margin-top:22px">Keep an eye on your phone &#128064;</p>
-        <a href="#training" class="btn inline" style="margin:26px auto 0"><span class="lab">START MY PRIVATE TRAINING &rarr;</span></a>
-      </div>
-
+    <div class="tfwrap">
+      <iframe id="tf"
+        src="https://form.typeform.com/to/P2I1cnTV?email_hidden={{contact.email}}&amp;contact_id={{contact.id}}&amp;first_name={{contact.first_name}}"
+        title="VIP DFY Portfolio Questionnaire" loading="lazy"
+        allow="camera; microphone; autoplay; encrypted-media;"></iframe>
     </div>
+    <p class="vidcap" style="margin-top:16px">Trouble loading it?
+      <a href="https://form.typeform.com/to/P2I1cnTV" target="_blank" rel="noopener">Open the questions in a new tab</a>.</p>
   </div>
 </section>
 
@@ -851,7 +646,8 @@ footer a{color:var(--mute-2)}
       <tr><th>Token</th><th>Where it comes from</th><th>If it is empty</th></tr>
       <tr><td>{{contact.first_name}}</td><td>VIP checkout. Used in the SMS mockup and to prefill the name input</td><td>Show "there" in the SMS line, leave the name input blank</td></tr>
       <tr><td>{{contact.last_name}}</td><td>VIP checkout. Prefills the name input only</td><td>Show nothing</td></tr>
-      <tr><td>{{contact.phone}}</td><td>VIP checkout. Prefills the phone input</td><td>Leave the input blank, do not prefill</td></tr>
+      <tr><td>{{contact.email}}</td><td>VIP checkout. Passed into the Typeform as the hidden field <b>email_hidden</b></td><td>They type it themselves, the form asks for it anyway</td></tr>
+      <tr><td>{{contact.id}}</td><td>GHL contact id. Passed into the Typeform as the hidden field <b>contact_id</b></td><td>Match on email instead</td></tr>
       <tr><td>{{custom_values.class_date}}</td><td>GHL Custom Value, updated per class</td><td>Do not launch without it</td></tr>
       <tr><td>{{custom_values.class_time}}</td><td>GHL Custom Value, include the timezone</td><td>Do not launch without it</td></tr>
       <tr><td>{{custom_values.class_length}}</td><td>GHL Custom Value</td><td>Do not launch without it</td></tr>
@@ -870,30 +666,45 @@ footer a{color:var(--mute-2)}
       <tr><th>Where</th><th>What goes there</th></tr>
       <tr><td>Step One player</td><td>The VIP confirmation video. Autoplay off, big play button, no related videos at the end. Replace the "~3 minutes" caption and the 3:04 badge with the real runtime.</td></tr>
       <tr><td>Every ADD TO CALENDAR button</td><td>Same calendar action on all three buttons. Serve an .ics download plus a Google Calendar link. Title, date, time and duration come from the Custom Values above.</td></tr>
-      <tr><td>Step Three form</td><td>The real form. Field list, order and wording stay exactly as designed. See section 3.</td></tr>
+      <tr><td>Step Three</td><td>Already done. It is a Typeform iframe, form id <b>P2I1cnTV</b>. Do not rebuild the questions in GHL. See section 3.</td></tr>
       <tr><td>Step Four player</td><td>The 0 to First 4 Figures Creator Roadmap video. Replace the 20:00 badge with the real runtime.</td></tr>
       <tr><td>Portfolio card, Step Five</td><td>Two states. BUILDING is the default. READY swaps the pill, kills the loader bar, and enables the VIEW PORTFOLIO button pointed at their portfolio link. Use the BUILD toggle on the card to see both.</td></tr>
       <tr><td>OPEN MY SUCCESS CENTER</td><td>Success centre URL, opens in a new tab.</td></tr>
     </table>
     </div>
 
-    <h3>3. Form rules</h3>
+    <h3>3. The application form</h3>
+    <p class="n">The questions live in Typeform, not on this page. Form name
+      <b>VIP Typeform: DFY Portfolio Questionaire</b>, id <b>P2I1cnTV</b>. The page just embeds it
+      in an iframe. Nothing about the questions gets rebuilt in GHL.</p>
     <ul>
-      <li>Four parts. The progress bar and the "Part X of 4" label update on every step.</li>
-      <li><b>Part 1</b> is three fields. Name and phone prefill from the VIP checkout and stay editable. Handle is optional and always starts blank. There is no registration survey feeding this page, so nothing else is known about them before they fill this in.</li>
-      <li><b>Part 3 photos:</b> minimum 5, maximum 10. JPG, PNG, HEIC. They cannot continue under 5.</li>
-      <li><b>Part 3 videos:</b> "Nope, I'm completely starting from zero" is exclusive. Selecting it clears every other option and hides the upload block. Selecting any other option clears it and reveals the upload block.</li>
-      <li><b>Part 4 caps:</b> personality is max 3, brand types is max 5. Once the cap is hit the remaining options grey out and the counter turns.</li>
-      <li>Back button is hidden on Part 1. Continue becomes Submit on Part 4.</li>
-      <li>On submit, show the "That's everything" state in place of the form. Do not redirect them off the page, the bonus course and success centre are further down.</li>
+      <li><b>Embed URL:</b> https://form.typeform.com/to/P2I1cnTV with the three hidden fields
+        appended, exactly as it already is in the iframe src.</li>
+      <li><b>Hidden fields:</b> <b>email_hidden</b>, <b>contact_id</b>, <b>first_name</b>. They come
+        off the GHL contact so a submission can be matched back without trusting what they type.</li>
+      <li>The form still asks for name, email and phone as visible questions. That is on purpose.
+        If somebody opens the link fresh, outside the funnel, the hidden fields are empty and those
+        three answers are the only way to identify them.</li>
+      <li><b>Photos are five separate required upload questions, then five optional ones.</b>
+        Typeform takes one file per question, so ten photos means ten questions. Same for the three
+        optional video slots. This is a Typeform limit, not a design choice.</li>
+      <li>The fallback link under the embed opens the form in a new tab. Leave it there, some
+        in-app browsers block the iframe.</li>
+      <li>Do not edit the questions inside the GHL builder. Edit them in Typeform and the page
+        picks the change up on its own.</li>
     </ul>
 
     <h3>4. What fires on submit</h3>
+    <p class="n">All of this hangs off a Typeform webhook, not off this page. The page has no
+      submit handler and does not need one.</p>
     <ol>
-      <li>Write every answer and every uploaded file back to the contact record.</li>
+      <li>Typeform webhook posts the response into GHL and writes the answers onto the contact.</li>
       <li>Tag the contact so the portfolio build workflow starts.</li>
       <li>Notify the fulfilment team that a new build is in the queue.</li>
-      <li>Timestamp the submission. The promise on the page is most portfolios back in about 20 minutes and 24 hours maximum, so the clock needs to start here.</li>
+      <li>The uploaded files come back as Typeform-hosted URLs in the webhook payload. Store them
+        somewhere we own. Typeform file links are not a permanent home.</li>
+      <li>Timestamp the submission. The promise is most portfolios back in about 20 minutes and
+        24 hours maximum, so the clock starts on the webhook.</li>
     </ol>
 
     <h3>5. Before you hand it back</h3>
@@ -901,7 +712,9 @@ footer a{color:var(--mute-2)}
       <li>Test on a phone first. Most VIP buyers open this on mobile.</li>
       <li>Load the page as a real contact and confirm no raw <span class="tok">{{token}}</span> text is visible anywhere.</li>
       <li>Click all three calendar buttons and confirm the same event lands.</li>
-      <li>Submit the form end to end with real photos and confirm they arrive on the contact record.</li>
+      <li>Submit the form end to end with real photos and confirm the webhook lands on the contact record.</li>
+      <li>Load the page as a real contact and confirm the three hidden fields arrive in the Typeform response, not blank.</li>
+      <li>Check the embed on an iPhone in the Instagram in-app browser. That is where iframes break.</li>
       <li>Confirm the BUILD NOTES section is deleted.</li>
     </ul>
   </div>
@@ -915,7 +728,6 @@ footer a{color:var(--mute-2)}
   </div>
 </footer>
 
-<div class="confetti" id="confetti"></div>
 <div class="toast" id="toast"><span id="toasttxt"></span></div>
 
 <script>
@@ -951,120 +763,6 @@ $$('[data-play]').forEach(p=>{
 $$('[data-cal]').forEach(b=>b.addEventListener('click',()=>{
   toast('BUILD: fire the .ics download / Google Calendar link here.');
 }));
-
-/* option groups */
-function wire(group){
-  const max = group.dataset.max ? +group.dataset.max : null;
-  const counter = group.parentElement.querySelector('.cnt');
-  const zeroOpt = $('[data-zero]', group);
-  group.addEventListener('click', e=>{
-    const o = e.target.closest('.opt');
-    if(!o || o.classList.contains('dis')) return;
-
-    if(zeroOpt){
-      if(o === zeroOpt){
-        const on = !o.classList.contains('sel');
-        $$('.opt',group).forEach(x=>x.classList.remove('sel'));
-        o.classList.toggle('sel', on);
-      } else {
-        zeroOpt.classList.remove('sel');
-        o.classList.toggle('sel');
-      }
-      const any = $$('.opt.sel',group).some(x=>!x.hasAttribute('data-zero'));
-      $('#vidreveal').classList.toggle('on', any);
-      return;
-    }
-
-    o.classList.toggle('sel');
-    if(max){
-      const n = $$('.opt.sel',group).length;
-      if(n > max){ o.classList.remove('sel'); toast('Pick up to '+max+'.'); }
-      const sel = $$('.opt.sel',group).length;
-      $$('.opt',group).forEach(x=>x.classList.toggle('dis', sel>=max && !x.classList.contains('sel')));
-      if(counter){
-        counter.textContent = sel+' of '+max+' chosen';
-        counter.classList.toggle('max', sel>=max);
-      }
-    }
-  });
-}
-$$('[data-multi]').forEach(wire);
-
-/* uploaders */
-function uploader(dropId, thumbsId, countId, label, max, minNote){
-  const drop = $('#'+dropId), box = $('#'+thumbsId), cnt = $('#'+countId);
-  let n = 0;
-  function render(){
-    box.innerHTML = '';
-    for(let i=1;i<=n;i++){
-      const d = document.createElement('div');
-      d.className = 'thumb filled';
-      d.innerHTML = label+' '+String(i).padStart(2,'0')+'<span class="x" data-i="'+i+'">&times;</span>';
-      box.appendChild(d);
-    }
-    if(n && n<max){
-      const a = document.createElement('div');
-      a.className='thumb add'; a.textContent='+ ADD';
-      a.addEventListener('click', add);
-      box.appendChild(a);
-    }
-    cnt.textContent = n+' of '+max + (minNote && n<5 ? ' · '+minNote : '');
-    cnt.classList.toggle('max', n>=5);
-  }
-  function add(){ if(n<max){ n++; render(); } else toast('That’s the maximum.'); }
-  drop.addEventListener('click', add);
-  ['dragover','dragenter'].forEach(ev=>drop.addEventListener(ev,e=>{e.preventDefault();drop.classList.add('over')}));
-  ['dragleave','drop'].forEach(ev=>drop.addEventListener(ev,e=>{e.preventDefault();drop.classList.remove('over')}));
-  drop.addEventListener('drop', add);
-  box.addEventListener('click', e=>{
-    const x = e.target.closest('.x');
-    if(x){ e.stopPropagation(); n = Math.max(0, n-1); render(); }
-  });
-  render();
-}
-uploader('drop','thumbs','pcount','PHOTO',10,'add at least 5');
-uploader('vdrop','vthumbs','vcount','VIDEO',10,'');
-
-/* multi-step */
-const NAMES = ['Basic creator identity','Your lifestyle & interests','Photos & videos','Brands & content style'];
-let step = 1; const TOTAL = 4;
-function show(scroll){
-  $$('.fstep').forEach(s=>s.hidden = (+s.dataset.step !== step));
-  $('#pstep').textContent = 'Part '+step+' of '+TOTAL;
-  $('#pname').textContent = NAMES[step-1];
-  $('#pbar').style.width = (step/TOTAL*100)+'%';
-  $('#back').hidden = step === 1;
-  $('#next').querySelector('.lab').innerHTML = step === TOTAL ? 'SUBMIT MY APPLICATION &rarr;' : 'Continue &rarr;';
-  if(scroll) $('#form').scrollIntoView({behavior:'smooth', block:'start'});
-}
-$('#next').addEventListener('click', ()=>{
-  if(step < TOTAL){ step++; show(true); return; }
-  $('.fhead').style.display='none';
-  $('.fbody').style.display='none';
-  $('#fnav').style.display='none';
-  $('#done').classList.add('on');
-  $('#form').scrollIntoView({behavior:'smooth', block:'start'});
-  fire();
-});
-$('#back').addEventListener('click', ()=>{ if(step>1){ step--; show(true); } });
-show(false);
-
-/* confetti */
-function fire(){
-  const c = $('#confetti'); c.classList.add('on'); c.innerHTML='';
-  const cols = ['#7A5AF8','#C4B0FF','#12A150','#FFD166','#6305A6'];
-  for(let i=0;i<110;i++){
-    const d = document.createElement('div');
-    d.className='cf';
-    d.style.left = Math.random()*100+'vw';
-    d.style.background = cols[i%cols.length];
-    d.style.animationDuration = (2.4+Math.random()*1.9)+'s';
-    d.style.animationDelay = (Math.random()*.7)+'s';
-    if(i%3===0) d.style.borderRadius='50%';
-    c.appendChild(d);
-  }
-  setTimeout(()=>c.classList.remove('on'), 5200);
-}
 
 /* success-center demo toggle */
 let ready = false;
