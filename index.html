@@ -533,30 +533,7 @@ footer a{color:var(--mute-2)}
       who dig in early always show up sharper.</p>
   </div>
   <div class="wrap">
-    <div class="grid3">
-
-      <div class="card rc">
-        <div class="rt">Your personalized portfolio</div>
-        <h3>Built around your background</h3>
-        <span class="pill build" id="pfpill">&#9679; Building&hellip;</span>
-        <div class="loader" id="pfload"><i></i></div>
-        <p class="rp" style="margin-top:10px" id="pftext">We'll text you when it's ready.</p>
-        <div class="sp"></div>
-        <button class="btn" id="pfbtn" disabled><span class="lab">VIEW PORTFOLIO</span></button>
-        <p class="dual"><button class="pf-edit" id="toggleready" style="margin:0">BUILD: toggle to see the READY state</button></p>
-      </div>
-
-      <div class="card rc">
-        <div class="rt">Live workshop</div>
-        <h3><span class="tok">{{custom_values.class_date}}</span></h3>
-        <span class="pill ready">&#10003; Seat confirmed</span>
-        <p class="rp" style="margin-top:12px"><span class="tok">{{custom_values.class_time}}</span> &middot; <span class="tok">{{custom_values.class_length}}</span>. Bring your portfolio.</p>
-        <div class="sp"></div>
-        <button class="btn" data-cal><span class="lab">ADD TO CALENDAR</span></button>
-      </div>
-
-    </div>
-    <div class="center" style="margin-top:26px">
+    <div class="center">
       <a href="https://ugc-world.com/creator" target="_blank" rel="noopener" class="btn inline"
          style="margin:0 auto"><span class="lab">OPEN MY SUCCESS CENTER &rarr;</span></a>
     </div>
@@ -674,10 +651,9 @@ footer a{color:var(--mute-2)}
     <table class="bt">
       <tr><th>Where</th><th>What goes there</th></tr>
       <tr><td>Step One player</td><td>The VIP confirmation video. Autoplay off, big play button, no related videos at the end. Replace the "~3 minutes" caption and the 3:04 badge with the real runtime.</td></tr>
-      <tr><td>Every ADD TO CALENDAR button</td><td>Already done. All three build a real .ics in the browser from <b>cs</b> and <b>cl</b>. Nothing to wire. If <b>cs</b> is missing they degrade to an honest message instead of a broken invite.</td></tr>
+      <tr><td>Every ADD TO CALENDAR button</td><td>Already done. Both build a real .ics in the browser from <b>cs</b> and <b>cl</b>. Nothing to wire. If <b>cs</b> is missing they degrade to an honest message instead of a broken invite.</td></tr>
       <tr><td>Step Three</td><td>Already done. It is a Typeform iframe, form id <b>P2I1cnTV</b>. Do not rebuild the questions in GHL. See section 3.</td></tr>
       <tr><td>Step Four player</td><td>The 0 to First 4 Figures Creator Roadmap video. Replace the 20:00 badge with the real runtime.</td></tr>
-      <tr><td>Portfolio card, Step Five</td><td>Two states. BUILDING is the default. READY swaps the pill, kills the loader bar, and enables the VIEW PORTFOLIO button pointed at their portfolio link. Use the BUILD toggle on the card to see both.</td></tr>
       <tr><td>Footer and Success Center links</td><td>Already hardcoded, they do not change. ugc-world.com/creator, /terms, /privacy, and support@ugc-world.com.</td></tr>
     </table>
     </div>
@@ -862,24 +838,7 @@ $$('[data-cal]').forEach(b=>b.addEventListener('click', e=>{
   toast('Added. Check your downloads if it did not open.');
 }));
 
-/* success-center demo toggle */
-let ready = false;
-$('#toggleready').addEventListener('click', ()=>{
-  ready = !ready;
-  const pill=$('#pfpill'), load=$('#pfload'), btn=$('#pfbtn'), txt=$('#pftext');
-  if(ready){
-    pill.className='pill ready'; pill.innerHTML='&#10003; Ready';
-    load.style.display='none';
-    txt.textContent='Your portfolio is live. We texted you the link too.';
-    btn.disabled=false;
-  } else {
-    pill.className='pill build'; pill.innerHTML='&#9679; Building&hellip;';
-    load.style.display='';
-    txt.textContent="We'll text you when it's ready.";
-    btn.disabled=true;
-  }
-});
-$('#pfbtn').addEventListener('click', ()=>toast('Opens the finished portfolio.'));
+
 
 </script>
 </body>
