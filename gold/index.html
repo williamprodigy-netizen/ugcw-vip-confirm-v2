@@ -416,16 +416,23 @@ footer .wrap{display:flex;justify-content:space-between;gap:24px;flex-wrap:wrap}
   var SPEED = 0.35, paused = false, held = false, resumeAt = 0;
   var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
+  /* The position is kept as a float here rather than read back off the element. Chrome
+     rounds scrollLeft to whole pixels on read, so `scrollLeft += 0.35` reads 0, writes
+     0.35, rounds back to 0, and the drift never moves at all. */
+  var pos = 0;
+  function sync(){ pos = rail.scrollLeft; }
+
   function wrapAround(){
     if(half <= 0) return;
-    if(rail.scrollLeft >= half) rail.scrollLeft -= half;
-    else if(rail.scrollLeft < 0) rail.scrollLeft += half;
+    if(pos >= half) pos -= half;
+    else if(pos < 0) pos += half;
   }
   function tick(now){
     requestAnimationFrame(tick);
-    if(reduce || held || paused || now < resumeAt) return;
-    rail.scrollLeft += SPEED;
+    if(reduce || held || paused || now < resumeAt){ return; }
+    pos += SPEED;
     wrapAround();
+    rail.scrollLeft = pos;
   }
   requestAnimationFrame(tick);
   function nudge(){ resumeAt = performance.now() + 2400; }
@@ -435,8 +442,13 @@ footer .wrap{display:flex;justify-content:space-between;gap:24px;flex-wrap:wrap}
   document.addEventListener('visibilitychange', function(){ paused = document.hidden; });
 
   var STEP = 312;
-  if(prev) prev.addEventListener('click', function(){ nudge(); rail.scrollBy({left:-STEP*2,behavior:'smooth'}); });
-  if(next) next.addEventListener('click', function(){ nudge(); rail.scrollBy({left: STEP*2,behavior:'smooth'}); });
+  function arrow(dir){
+    nudge();
+    rail.scrollBy({left: dir*STEP*2, behavior:'smooth'});
+    setTimeout(sync, 520);
+  }
+  if(prev) prev.addEventListener('click', function(){ arrow(-1); });
+  if(next) next.addEventListener('click', function(){ arrow(1); });
 
   var down=false, moved=0, startX=0, startL=0;
   rail.addEventListener('pointerdown', function(e){
@@ -449,12 +461,13 @@ footer .wrap{display:flex;justify-content:space-between;gap:24px;flex-wrap:wrap}
     var dx = e.clientX - startX;
     if(Math.abs(dx) > 4) rail.classList.add('grabbing');
     moved = Math.max(moved, Math.abs(dx));
-    rail.scrollLeft = startL - dx;
+    pos = startL - dx;
     wrapAround();
+    rail.scrollLeft = pos;
   });
   function release(e){
     if(!down) return;
-    down=false; held=false; nudge(); rail.classList.remove('grabbing');
+    down=false; held=false; nudge(); sync(); rail.classList.remove('grabbing');
     try{ rail.releasePointerCapture(e.pointerId); }catch(err){}
   }
   rail.addEventListener('pointerup', release);
@@ -466,8 +479,9 @@ footer .wrap{display:flex;justify-content:space-between;gap:24px;flex-wrap:wrap}
   rail.addEventListener('wheel', function(e){
     if(Math.abs(e.deltaY) <= Math.abs(e.deltaX)) return;
     e.preventDefault(); nudge();
-    rail.scrollLeft += e.deltaY;
+    pos += e.deltaY;
     wrapAround();
+    rail.scrollLeft = pos;
   }, {passive:false});
 
   /* Native controls stay hidden. That grey browser toolbar across the bottom of a card is
