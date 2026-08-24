@@ -43,6 +43,32 @@ button{font-family:inherit}
 .wrap{width:100%;max-width:1060px;margin:0 auto;padding:0 20px}
 .narrow{max-width:760px}
 
+/* ===== build notes (internal, strip before this ships to leads) ===== */
+#build{background:#faf7ff;border-top:2px dashed rgba(124,58,237,.35);padding:52px 0 60px}
+#build .kicker{display:inline-block;background:#7c3aed;color:#fff;border-radius:999px;
+  padding:5px 14px;font-size:12.5px;font-weight:800;letter-spacing:.6px}
+#build h2{margin:14px 0 6px;font-size:27px;line-height:1.2}
+#build h3{margin:34px 0 10px;font-size:17.5px}
+#build p.n{color:var(--mute-2);font-size:15px;line-height:1.62;margin:0 0 10px}
+#build ol,#build ul{margin:0 0 10px;padding-left:20px;color:var(--mute-2);font-size:15px;line-height:1.72}
+#build li{margin:0 0 6px}
+#build li b{color:var(--violet-ink)}
+.bt{width:100%;border-collapse:collapse;background:#fff;border:1px solid rgba(124,58,237,.18);
+  border-radius:12px;overflow:hidden;font-size:14.5px}
+.bt th{text-align:left;background:rgba(124,58,237,.07);color:var(--violet-ink);
+  font-weight:800;padding:10px 13px;font-size:13px;letter-spacing:.3px}
+.bt td{padding:10px 13px;border-top:1px solid rgba(124,58,237,.12);color:var(--mute-2);
+  vertical-align:top;line-height:1.5}
+.bt td:first-child{white-space:nowrap}
+.bscroll{overflow-x:auto;-webkit-overflow-scrolling:touch}
+@media(max-width:640px){.bt td:first-child{white-space:normal}}
+/* merge-field token */
+.tok{display:inline-block;background:rgba(124,58,237,.10);color:#7c3aed;
+  border:1px dashed rgba(124,58,237,.45);border-radius:6px;padding:1px 7px;
+  font-weight:700;font-size:.94em;letter-spacing:.1px;white-space:nowrap}
+.when .tok,.rp .tok,.rd .tok{font-size:.92em}
+.btn .tok{background:rgba(255,255,255,.18);border-color:rgba(255,255,255,.5);color:#fff}
+.pf .tok{border-style:dashed}
 /* demo ribbon */
 .demo{background:var(--amber-bg);color:var(--amber);text-align:center;
  font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;padding:7px 14px;
@@ -125,6 +151,7 @@ section{padding:clamp(48px,6vw,76px) 0}
  margin-top:16px}
 .act .when b{display:block;font-family:var(--disp);font-weight:800;font-size:16px;color:var(--violet-ink)}
 .act .when span{font-size:14px;color:var(--mute)}
+.act .when .wl{display:block;margin-top:5px}
 .act .micro{font-size:13px;color:var(--mute-2);margin-top:14px}
 .act .spacer{flex:1}
 .hl{background:var(--lav-2);border-left:3px solid var(--violet);border-radius:0 10px 10px 0;
@@ -360,7 +387,7 @@ footer a{color:var(--mute-2)}
 </head>
 <body>
 
-<div class="demo">Demo mockup &middot; sample data for Sarah Mitchell &middot; not a live page</div>
+<div class="demo">Build template &middot; every <b>{{token}}</b> below is a field to wire, not copy to type &middot; full build notes at the bottom of this page</div>
 <div class="topbar">&#9889; Your VIP seat is confirmed &#9889;</div>
 
 <!-- ============ 1. HERO ============ -->
@@ -412,7 +439,7 @@ footer a{color:var(--mute-2)}
         <h3>Add The Workshop To Your Calendar</h3>
         <p class="p">Add the live Creator Workshop to your calendar now so nothing gets in the way.</p>
         <button class="btn" data-cal><span class="lab">ADD TO MY CALENDAR &rarr;</span></button>
-        <div class="when"><b>Sunday, August 30</b><span>2:00 PM Eastern &middot; 90 minutes</span></div>
+        <div class="when"><b><span class="tok">{{custom_values.class_date}}</span></b><span class="wl"><span class="tok">{{custom_values.class_time}}</span></span><span class="wl"><span class="tok">{{custom_values.class_length}}</span></span></div>
         <div class="spacer"></div>
         <p class="micro">VIP works best when you actually show up with your portfolio ready.</p>
       </div>
@@ -425,7 +452,7 @@ footer a{color:var(--mute-2)}
           number to send your portfolio to when it's finished.</p>
         <div class="phone">
           <div class="hdr">UGC World</div>
-          <div class="bub them">Hey Sarah! It's the UGC World team &#128075;<br><br>
+          <div class="bub them">Hey <span class="tok">{{contact.first_name}}</span>! It's the UGC World team &#128075;<br><br>
             Reply YES so we know we can reach you when your portfolio is ready &#127881;</div>
           <div class="bub me">YES</div>
           <div class="yourresp">Your response</div>
@@ -469,21 +496,21 @@ footer a{color:var(--mute-2)}
             <div class="t"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
               Already saved from your registration</div>
             <div class="pf">
-              <div><span>Name</span><b>Sarah Mitchell</b></div>
-              <div><span>Experience</span><b>Never created content</b></div>
-              <div><span>Goal</span><b>$2&ndash;4k/mo side income</b></div>
-              <div><span>Initial niche</span><b>Beauty / wellness</b></div>
-              <div><span>Age</span><b>35&ndash;44</b></div>
-              <div><span>Occupation</span><b>Nurse</b></div>
-              <div><span>Instagram</span><b>@sarahplaceholder</b></div>
+              <div><span>Name</span><b class="tok">{{contact.first_name}} {{contact.last_name}}</b></div>
+              <div><span>Experience</span><b class="tok">{{contact.experience_level}}</b></div>
+              <div><span>Goal</span><b class="tok">{{contact.income_goal}}</b></div>
+              <div><span>Initial niche</span><b class="tok">{{contact.initial_niche}}</b></div>
+              <div><span>Age</span><b class="tok">{{contact.age_range}}</b></div>
+              <div><span>Occupation</span><b class="tok">{{contact.occupation}}</b></div>
+              <div><span>Instagram</span><b class="tok">{{contact.instagram_handle}}</b></div>
             </div>
-            <button class="pf-edit" data-toast="In the real page this opens an edit drawer.">Something wrong? Edit these</button>
+            <button class="pf-edit" data-toast="BUILD: opens an edit drawer so they can correct a wrong prefill.">Something wrong? Edit these</button>
           </div>
 
           <div class="q">
             <label class="qlab">What's the best number for your portfolio?</label>
             <p class="help">This is where we'll text you the moment it's ready.</p>
-            <input type="text" value="(316) 555-0148" inputmode="tel">
+            <input type="text" value="{{contact.phone}}" inputmode="tel">
           </div>
         </div>
 
@@ -699,7 +726,7 @@ footer a{color:var(--mute-2)}
 
     <p class="tclose">Now bring this foundation and your finished portfolio to the live workshop.</p>
     <button class="btn" data-cal><span class="lab">ADD THE LIVE WORKSHOP TO MY CALENDAR</span>
-      <span class="sml">Sunday, August 30 &middot; 2:00 PM Eastern</span></button>
+      <span class="sml"><span class="tok">{{custom_values.class_date}}</span> &middot; <span class="tok">{{custom_values.class_time}}</span></span></button>
   </div>
 </section>
 
@@ -722,21 +749,21 @@ footer a{color:var(--mute-2)}
         <p class="rp" style="margin-top:10px" id="pftext">We'll text you when it's ready.</p>
         <div class="sp"></div>
         <button class="btn" id="pfbtn" disabled><span class="lab">VIEW PORTFOLIO</span></button>
-        <p class="dual"><button class="pf-edit" id="toggleready" style="margin:0">Demo: toggle the READY state</button></p>
+        <p class="dual"><button class="pf-edit" id="toggleready" style="margin:0">BUILD: toggle to see the READY state</button></p>
       </div>
 
       <div class="card rc">
         <div class="rt">Live workshop</div>
-        <h3>Sunday, August 30</h3>
+        <h3><span class="tok">{{custom_values.class_date}}</span></h3>
         <span class="pill ready">&#10003; Seat confirmed</span>
-        <p class="rp" style="margin-top:12px">2:00 PM Eastern &middot; 90 minutes. Bring your portfolio.</p>
+        <p class="rp" style="margin-top:12px"><span class="tok">{{custom_values.class_time}}</span> &middot; <span class="tok">{{custom_values.class_length}}</span>. Bring your portfolio.</p>
         <div class="sp"></div>
         <button class="btn" data-cal><span class="lab">ADD TO CALENDAR</span></button>
       </div>
 
     </div>
     <div class="center" style="margin-top:26px">
-      <a href="https://ugc-world.com/creator" target="_blank" rel="noopener" class="btn inline"
+      <a href="{{custom_values.success_center_url}}" target="_blank" rel="noopener" class="btn inline"
          style="margin:0 auto"><span class="lab">OPEN MY SUCCESS CENTER &rarr;</span></a>
     </div>
   </div>
@@ -763,7 +790,8 @@ footer a{color:var(--mute-2)}
         <span class="rx">
           <span class="rk">Step Two &middot; 2 min</span>
           <span class="rv">Add the class to your calendar and reply to our text</span>
-          <span class="rd">Sunday, August 30 &middot; 2:00 PM Eastern. Reply YES so we know where
+          <span class="rd"><span class="tok">{{custom_values.class_date}}</span> &middot;
+            <span class="tok">{{custom_values.class_time}}</span>. Reply YES so we know where
             to send your finished portfolio.</span>
         </span>
       </a>
@@ -806,10 +834,93 @@ footer a{color:var(--mute-2)}
   </div>
 </section>
 
+<!-- ============ BUILD NOTES - INTERNAL ONLY, DELETE BEFORE LAUNCH ============ -->
+<section id="build">
+  <div class="wrap narrow">
+    <span class="kicker">BUILD NOTES &middot; INTERNAL</span>
+    <h2 class="h2">How to build this page</h2>
+    <p class="n">This page is the VIP confirmation page. A lead lands here the second they buy the
+      VIP ticket. Everything above is the finished design. Nothing above is placeholder copy, so do
+      not rewrite the words. The only things to change are the dashed purple
+      <span class="tok">{{tokens}}</span> and the links listed below.</p>
+    <p class="n"><b style="color:var(--violet-ink)">Delete this whole BUILD NOTES section before the
+      page goes live.</b> It is the last section in the HTML, right before the footer.</p>
+
+    <h3>1. Merge fields to wire</h3>
+    <p class="n">Every token appears more than once on the page. Search the HTML for the token text
+      and replace all instances. Never type a real date, name, or number into the page.</p>
+    <div class="bscroll">
+    <table class="bt">
+      <tr><th>Token</th><th>Where it comes from</th><th>If it is empty</th></tr>
+      <tr><td>{{contact.first_name}}</td><td>GHL contact record</td><td>Show "there"</td></tr>
+      <tr><td>{{contact.last_name}}</td><td>GHL contact record</td><td>Show nothing</td></tr>
+      <tr><td>{{contact.phone}}</td><td>GHL contact record, prefills the phone input</td><td>Leave the input blank, do not prefill</td></tr>
+      <tr><td>{{contact.experience_level}}</td><td>Registration form custom field</td><td>Hide that prefill row</td></tr>
+      <tr><td>{{contact.income_goal}}</td><td>Registration form custom field</td><td>Hide that prefill row</td></tr>
+      <tr><td>{{contact.initial_niche}}</td><td>Registration form custom field</td><td>Hide that prefill row</td></tr>
+      <tr><td>{{contact.age_range}}</td><td>Registration form custom field</td><td>Hide that prefill row</td></tr>
+      <tr><td>{{contact.occupation}}</td><td>Registration form custom field</td><td>Hide that prefill row</td></tr>
+      <tr><td>{{contact.instagram_handle}}</td><td>Registration form custom field</td><td>Hide that prefill row</td></tr>
+      <tr><td>{{custom_values.class_date}}</td><td>GHL Custom Value, updated per class</td><td>Do not launch without it</td></tr>
+      <tr><td>{{custom_values.class_time}}</td><td>GHL Custom Value, include the timezone</td><td>Do not launch without it</td></tr>
+      <tr><td>{{custom_values.class_length}}</td><td>GHL Custom Value</td><td>Do not launch without it</td></tr>
+      <tr><td>{{custom_values.success_center_url}}</td><td>GHL Custom Value</td><td>Hide the button</td></tr>
+      <tr><td>{{custom_values.terms_url}}</td><td>GHL Custom Value</td><td>Hide the link</td></tr>
+      <tr><td>{{custom_values.privacy_url}}</td><td>GHL Custom Value</td><td>Hide the link</td></tr>
+      <tr><td>{{custom_values.contact_url}}</td><td>GHL Custom Value</td><td>Hide the link</td></tr>
+    </table>
+    </div>
+    <div class="hl" style="margin-top:14px">The class date and time move. They live in Custom Values
+      so one edit updates every place they appear. Do not hardcode them anywhere on this page.</div>
+
+    <h3>2. Things to plug in</h3>
+    <div class="bscroll">
+    <table class="bt">
+      <tr><th>Where</th><th>What goes there</th></tr>
+      <tr><td>Step One player</td><td>The VIP confirmation video. Autoplay off, big play button, no related videos at the end. Replace the "~3 minutes" caption and the 3:04 badge with the real runtime.</td></tr>
+      <tr><td>Every ADD TO CALENDAR button</td><td>Same calendar action on all three buttons. Serve an .ics download plus a Google Calendar link. Title, date, time and duration come from the Custom Values above.</td></tr>
+      <tr><td>Step Three form</td><td>The real form. Field list, order and wording stay exactly as designed. See section 3.</td></tr>
+      <tr><td>Step Four player</td><td>The 0 to First 4 Figures Creator Roadmap video. Replace the 20:00 badge with the real runtime.</td></tr>
+      <tr><td>Portfolio card, Step Five</td><td>Two states. BUILDING is the default. READY swaps the pill, kills the loader bar, and enables the VIEW PORTFOLIO button pointed at their portfolio link. Use the BUILD toggle on the card to see both.</td></tr>
+      <tr><td>OPEN MY SUCCESS CENTER</td><td>Success centre URL, opens in a new tab.</td></tr>
+    </table>
+    </div>
+
+    <h3>3. Form rules</h3>
+    <ul>
+      <li>Four parts. The progress bar and the "Part X of 4" label update on every step.</li>
+      <li><b>Part 1</b> prefills from the registration record and is read only, except the phone number, which they can edit. "Something wrong? Edit these" opens an edit drawer.</li>
+      <li><b>Part 3 photos:</b> minimum 5, maximum 10. JPG, PNG, HEIC. They cannot continue under 5.</li>
+      <li><b>Part 3 videos:</b> "Nope, I'm completely starting from zero" is exclusive. Selecting it clears every other option and hides the upload block. Selecting any other option clears it and reveals the upload block.</li>
+      <li><b>Part 4 caps:</b> personality is max 3, brand types is max 5. Once the cap is hit the remaining options grey out and the counter turns.</li>
+      <li>Back button is hidden on Part 1. Continue becomes Submit on Part 4.</li>
+      <li>On submit, show the "That's everything" state in place of the form. Do not redirect them off the page, the bonus course and success centre are further down.</li>
+    </ul>
+
+    <h3>4. What fires on submit</h3>
+    <ol>
+      <li>Write every answer and every uploaded file back to the contact record.</li>
+      <li>Tag the contact so the portfolio build workflow starts.</li>
+      <li>Notify the fulfilment team that a new build is in the queue.</li>
+      <li>Timestamp the submission. The promise on the page is most portfolios back in about 20 minutes and 24 hours maximum, so the clock needs to start here.</li>
+    </ol>
+
+    <h3>5. Before you hand it back</h3>
+    <ul>
+      <li>Test on a phone first. Most VIP buyers open this on mobile.</li>
+      <li>Load the page as a real contact and confirm no raw <span class="tok">{{token}}</span> text is visible anywhere.</li>
+      <li>Click all three calendar buttons and confirm the same event lands.</li>
+      <li>Submit the form end to end with real photos and confirm they arrive on the contact record.</li>
+      <li>Confirm the BUILD NOTES section is deleted.</li>
+    </ul>
+  </div>
+</section>
+
 <footer>
   <div class="wrap">
-    Copyright &copy; UGC World 2026 &nbsp;|&nbsp; <a href="#">Terms of Service</a>
-    &nbsp;|&nbsp; <a href="#">Privacy Policy</a> &nbsp;|&nbsp; <a href="#">Contact</a>
+    Copyright &copy; UGC World 2026 &nbsp;|&nbsp; <a href="{{custom_values.terms_url}}">Terms of Service</a>
+    &nbsp;|&nbsp; <a href="{{custom_values.privacy_url}}">Privacy Policy</a>
+    &nbsp;|&nbsp; <a href="{{custom_values.contact_url}}">Contact</a>
   </div>
 </footer>
 
@@ -841,13 +952,13 @@ $$('[data-play]').forEach(p=>{
     p.dataset.on='1';
     bar.style.transition='width 9s linear';
     requestAnimationFrame(()=>bar.style.width='100%');
-    toast('Demo only. The real video loads here.');
+    toast('BUILD: embed the real video player here.');
   });
 });
 
 /* calendar */
 $$('[data-cal]').forEach(b=>b.addEventListener('click',()=>{
-  toast('Calendar file downloads here in the live version.');
+  toast('BUILD: fire the .ics download / Google Calendar link here.');
 }));
 
 /* option groups */
