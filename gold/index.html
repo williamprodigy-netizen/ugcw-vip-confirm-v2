@@ -7,186 +7,195 @@
 <title>Marcus Vela · Creator Profile</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
 :root{
-  --paper:#F2F0EC; --panel:#FFFFFF; --ink:#141210; --ink2:#5A544D; --ink3:#8C857C;
-  --line:#DCD7CF; --line2:#C6BFB4; --accent:#B4442A;
+  --paper:#F1EFEA; --ink:#12100E; --ink2:#57514A; --ink3:#928B81;
+  --line:#DED9D0; --line2:#C4BCB0; --accent:#A93F24;
   --serif:'Instrument Serif',Georgia,serif;
   --sans:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+  --gut:44px;
 }
 *{box-sizing:border-box;margin:0;padding:0}
 html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
 body{background:var(--paper);color:var(--ink);font-family:var(--sans);
-  font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased}
+  font-size:16px;line-height:1.62;-webkit-font-smoothing:antialiased;overflow-x:hidden}
 img,video{display:block;max-width:100%}
 a{color:inherit}
+::selection{background:var(--accent);color:var(--paper)}
 
-.wrap{max-width:1180px;margin:0 auto;padding:0 40px}
-.eyebrow{font-size:11px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;
-  color:var(--ink3)}
-.rule{height:1px;background:var(--line);border:0}
+/* paper grain, barely there, takes the flat screen off it */
+body::after{content:"";position:fixed;inset:0;z-index:100;pointer-events:none;opacity:.032;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)'/%3E%3C/svg%3E")}
+
+.wrap{max-width:1200px;margin:0 auto;padding:0 var(--gut)}
+.eyebrow{display:flex;align-items:baseline;gap:13px;font-size:11px;font-weight:500;
+  letter-spacing:.18em;text-transform:uppercase;color:var(--ink3)}
+.eyebrow i{font-style:normal;font-family:var(--serif);font-size:14px;letter-spacing:.04em;
+  color:var(--accent)}
+h2.big{font-family:var(--serif);font-weight:400;font-size:clamp(34px,4.2vw,46px);
+  line-height:1.04;letter-spacing:-.014em;margin-top:14px}
+
+.rv{opacity:0;transform:translateY(24px);
+  transition:opacity .9s cubic-bezier(.2,.7,.3,1),transform .9s cubic-bezier(.2,.7,.3,1)}
+.rv.in{opacity:1;transform:none}
+@media(prefers-reduced-motion:reduce){.rv{opacity:1;transform:none;transition:none}}
 
 /* ---------- top bar ---------- */
-.bar{position:sticky;top:0;z-index:40;background:rgba(242,240,236,.88);
-  backdrop-filter:saturate(150%) blur(12px);border-bottom:1px solid var(--line)}
-.bar .wrap{display:flex;align-items:center;justify-content:space-between;height:58px;gap:20px}
-.bar b{font-weight:600;font-size:14px;letter-spacing:.01em}
-.bar .st{display:flex;align-items:center;gap:8px;font-size:12.5px;color:var(--ink2)}
+.bar{position:sticky;top:0;z-index:60;background:rgba(241,239,234,.82);
+  backdrop-filter:saturate(160%) blur(14px);border-bottom:1px solid var(--line)}
+.bar .wrap{display:flex;align-items:center;justify-content:space-between;height:60px;gap:20px}
+.bar b{font-weight:500;font-size:14px;letter-spacing:.02em}
+.bar .st{display:flex;align-items:center;gap:9px;font-size:12.5px;color:var(--ink2)}
 .dot{width:6px;height:6px;border-radius:50%;background:#2E9E5B;
-  box-shadow:0 0 0 3px rgba(46,158,91,.16)}
-.bar a.mail{font-size:13px;color:var(--ink);text-decoration:none;border-bottom:1px solid var(--line2);
-  padding-bottom:1px}
+  box-shadow:0 0 0 3px rgba(46,158,91,.15)}
+.bar a.mail{font-size:13px;text-decoration:none;border-bottom:1px solid var(--line2);
+  padding-bottom:2px;transition:border-color .2s ease}
 .bar a.mail:hover{border-color:var(--ink)}
-@media(max-width:720px){.bar .st{display:none}}
+@media(max-width:760px){.bar .st{display:none}}
 
 /* ---------- hero ---------- */
-.hero{padding:72px 0 0}
-.hero .wrap{display:grid;grid-template-columns:1fr 420px;gap:56px;align-items:end}
-.hero h1{font-family:var(--serif);font-weight:400;font-size:clamp(66px,9.4vw,132px);
-  line-height:.86;letter-spacing:-.022em;margin:20px 0 0}
-.hero h1 em{font-style:italic;display:block;color:var(--accent)}
-.hero .lede{font-size:20px;line-height:1.5;color:var(--ink2);max-width:29ch;margin-top:26px}
-.hero .facts{display:flex;flex-wrap:wrap;gap:0 34px;margin-top:34px;padding-top:20px;
+.hero{padding:88px 0 0}
+.hero .wrap{display:grid;grid-template-columns:1fr 430px;gap:64px;align-items:end}
+.hero h1{font-family:var(--serif);font-weight:400;font-size:clamp(68px,9.6vw,138px);
+  line-height:.84;letter-spacing:-.026em;margin:22px 0 0}
+.hero h1 em{font-style:italic;display:block;color:var(--accent);margin-left:.05em}
+.hero .lede{font-size:20.5px;line-height:1.48;color:var(--ink2);max-width:30ch;margin-top:30px}
+.facts{display:flex;flex-wrap:wrap;gap:0 40px;margin-top:38px;padding-top:22px;
   border-top:1px solid var(--line)}
-.hero .facts div{padding:4px 0}
-.hero .facts span{display:block;font-size:11px;letter-spacing:.14em;text-transform:uppercase;
-  color:var(--ink3);margin-bottom:3px}
-.hero .facts b{font-weight:500;font-size:15px}
+.facts div{padding:4px 0}
+.facts span{display:block;font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--ink3);margin-bottom:4px}
+.facts b{font-weight:500;font-size:15px}
 .portrait{position:relative;aspect-ratio:3/4;overflow:hidden;background:#ddd}
-.portrait img{width:100%;height:100%;object-fit:cover}
-.portrait figcaption{position:absolute;left:0;bottom:0;right:0;padding:14px 16px;
-  font-size:11.5px;letter-spacing:.12em;text-transform:uppercase;color:#fff;
-  background:linear-gradient(to top,rgba(0,0,0,.62),transparent)}
-@media(max-width:900px){
-  .hero{padding-top:44px}
-  .hero .wrap{grid-template-columns:1fr;gap:34px}
+.portrait img{width:100%;height:100%;object-fit:cover;
+  transition:transform 1.6s cubic-bezier(.2,.7,.3,1)}
+.portrait:hover img{transform:scale(1.035)}
+.portrait figcaption{position:absolute;left:0;right:0;bottom:0;padding:16px 18px;
+  font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:#fff;
+  background:linear-gradient(to top,rgba(0,0,0,.6),transparent)}
+@media(max-width:940px){
+  .hero{padding-top:46px}
+  .hero .wrap{grid-template-columns:1fr;gap:36px}
   .portrait{aspect-ratio:4/5;order:-1}
 }
 
-/* ---------- specs ---------- */
-.specs{padding:86px 0 0}
-.specgrid{margin-top:26px;border-top:1px solid var(--ink);
-  display:grid;grid-template-columns:repeat(2,1fr);column-gap:56px}
-.specgrid .row{display:grid;grid-template-columns:150px 1fr;gap:20px;
-  padding:16px 0;border-bottom:1px solid var(--line)}
-.specgrid .k{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink3);
-  padding-top:3px}
+/* ---------- sections ---------- */
+section{padding:104px 0 0}
+.specgrid{margin-top:30px;border-top:1px solid var(--ink);
+  display:grid;grid-template-columns:repeat(2,1fr);column-gap:64px}
+.specgrid .row{display:grid;grid-template-columns:158px 1fr;gap:22px;
+  padding:17px 0;border-bottom:1px solid var(--line)}
+.specgrid .k{font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink3);
+  padding-top:4px}
 .specgrid .v{font-size:15.5px;line-height:1.5}
-.specgrid .v small{display:block;color:var(--ink2);font-size:13.5px;margin-top:3px}
-@media(max-width:860px){
+.specgrid .v small{display:block;color:var(--ink2);font-size:13.5px;margin-top:4px}
+@media(max-width:880px){
   .specgrid{grid-template-columns:1fr;column-gap:0}
-  .specgrid .row{grid-template-columns:120px 1fr;gap:14px}
+  .specgrid .row{grid-template-columns:118px 1fr;gap:16px}
 }
 
 /* ---------- rail ---------- */
-.reel{padding:86px 0 0}
-.reel .head{display:flex;align-items:flex-end;justify-content:space-between;gap:20px}
-.reel h2{font-family:var(--serif);font-weight:400;font-size:40px;letter-spacing:-.01em}
-.navs{display:flex;gap:8px;flex-shrink:0}
-.nav{width:42px;height:42px;border-radius:50%;border:1px solid var(--line2);background:transparent;
+.reelhead{display:flex;align-items:flex-end;justify-content:space-between;gap:24px}
+.navs{display:flex;gap:9px;flex-shrink:0;padding-bottom:5px}
+.nav{width:44px;height:44px;border-radius:50%;border:1px solid var(--line2);background:transparent;
   display:grid;place-items:center;cursor:pointer;color:var(--ink);
-  transition:background .18s ease,border-color .18s ease,opacity .18s ease}
-.nav:hover:not(:disabled){background:var(--ink);border-color:var(--ink);color:var(--paper)}
-.nav:disabled{opacity:.28;cursor:default}
-@media(max-width:720px){.navs{display:none}}
+  transition:background .2s ease,border-color .2s ease,color .2s ease}
+.nav:hover{background:var(--ink);border-color:var(--ink);color:var(--paper)}
+@media(max-width:760px){.navs{display:none}}
 
-.railwrap{position:relative;margin-top:26px}
-/* it drifts, so it has to flow off both edges rather than stop at a hard crop */
-.railwrap::before,.railwrap::after{content:"";position:absolute;top:0;bottom:0;width:90px;
-  z-index:2;pointer-events:none}
-.railwrap::before{left:0;background:linear-gradient(to right,var(--paper),transparent)}
-.railwrap::after{right:0;background:linear-gradient(to left,var(--paper),transparent)}
-
-.rail{display:flex;gap:14px;overflow-x:auto;overflow-y:hidden;
-  scrollbar-width:none;padding-bottom:4px;
-  cursor:grab;user-select:none;-webkit-user-select:none}
-.rail.grabbing{cursor:grabbing;scroll-behavior:auto}
-.rail.grabbing .card{pointer-events:none}
+.railwrap{position:relative;margin-top:34px}
+.railwrap::before,.railwrap::after{content:"";position:absolute;top:0;bottom:0;width:110px;
+  z-index:3;pointer-events:none}
+.railwrap::before{left:0;background:linear-gradient(to right,var(--paper) 8%,transparent)}
+.railwrap::after{right:0;background:linear-gradient(to left,var(--paper) 8%,transparent)}
+.rail{display:flex;gap:16px;overflow-x:auto;overflow-y:hidden;scrollbar-width:none;
+  padding-bottom:4px;cursor:grab;user-select:none;-webkit-user-select:none}
+.rail.grabbing{cursor:grabbing}
 .rail::-webkit-scrollbar{display:none}
-.card{flex:0 0 auto;width:286px;aspect-ratio:9/16;position:relative;overflow:hidden;
-  background:#e6e2db;border:0;padding:0;cursor:default}
-button.card{cursor:pointer;font:inherit;color:inherit;appearance:none}
-.card img,.card video{width:100%;height:100%;object-fit:cover;pointer-events:none}
-.card .tag{position:absolute;left:0;right:0;bottom:0;padding:36px 14px 13px;
-  font-size:11px;letter-spacing:.11em;text-transform:uppercase;color:#fff;text-align:left;
-  background:linear-gradient(to top,rgba(0,0,0,.68),transparent)}
-.card .play{position:absolute;top:13px;left:13px;width:36px;height:36px;border-radius:50%;
-  background:rgba(255,255,255,.94);display:grid;place-items:center;color:#141210;
-  transition:opacity .2s ease}
-.card.on .play{opacity:0}
-.card.on:hover .play{opacity:1}
-@media(max-width:900px){
-  .card{width:220px}
-  .railwrap::before,.railwrap::after{width:40px}
+.card{flex:0 0 auto;width:296px;aspect-ratio:9/16;position:relative;overflow:hidden;
+  background:#e4e0d9;border:0;padding:0;cursor:pointer;font:inherit;color:inherit;
+  appearance:none;display:block}
+.card video{width:100%;height:100%;object-fit:cover;pointer-events:none;
+  transition:transform 1.4s cubic-bezier(.2,.7,.3,1)}
+.card:hover video{transform:scale(1.04)}
+.card .tag{position:absolute;left:0;right:0;bottom:0;padding:40px 15px 14px;
+  font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:#fff;text-align:left;
+  background:linear-gradient(to top,rgba(0,0,0,.7),transparent);z-index:2}
+.card .play{position:absolute;top:14px;left:14px;width:38px;height:38px;border-radius:50%;
+  background:rgba(255,255,255,.95);display:grid;place-items:center;color:#12100E;z-index:2;
+  transition:opacity .25s ease,transform .25s ease}
+.card.on .play{opacity:0;transform:scale(.85)}
+.card.on:hover .play{opacity:1;transform:none}
+@media(max-width:940px){
+  .card{width:224px}
+  .railwrap::before,.railwrap::after{width:44px}
 }
 
 /* ---------- concepts ---------- */
-.work{padding:96px 0 0}
-.work h2{font-family:var(--serif);font-weight:400;font-size:40px;letter-spacing:-.01em}
-.work .sub{color:var(--ink2);margin-top:8px;max-width:52ch}
-.idea{border-top:1px solid var(--ink);padding:34px 0;
-  display:grid;grid-template-columns:56px 1.25fr .95fr;gap:40px;align-items:start}
-.idea:first-of-type{margin-top:34px}
-.idea:last-child{border-bottom:1px solid var(--ink)}
-.idea .no{font-family:var(--serif);font-size:38px;line-height:1;color:var(--line2)}
-.idea .cat{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--accent)}
-.idea h3{font-family:var(--serif);font-weight:400;font-size:31px;line-height:1.12;
-  letter-spacing:-.01em;margin:9px 0 14px}
-.idea .hook{font-size:17.5px;line-height:1.5;padding-left:16px;
-  border-left:2px solid var(--accent);color:var(--ink)}
-.idea .note{font-size:14.5px;color:var(--ink2);margin-top:14px}
+.sub{color:var(--ink2);margin-top:12px;max-width:54ch;font-size:16.5px}
+.idea{border-top:1px solid var(--ink);padding:38px 0;
+  display:grid;grid-template-columns:62px 1.22fr .98fr;gap:44px;align-items:start}
+.idea:first-of-type{margin-top:38px}
+.idea:last-of-type{border-bottom:1px solid var(--ink)}
+.idea .no{font-family:var(--serif);font-size:42px;line-height:.9;color:var(--line2)}
+.idea .cat{font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--accent)}
+.idea h3{font-family:var(--serif);font-weight:400;font-size:32px;line-height:1.1;
+  letter-spacing:-.012em;margin:10px 0 16px}
+.idea .hook{font-size:18px;line-height:1.48;padding-left:18px;
+  border-left:2px solid var(--accent)}
+.idea .note{font-size:14.5px;color:var(--ink2);margin-top:16px;max-width:44ch}
 .idea ol{list-style:none;counter-reset:b}
-.idea ol li{counter-increment:b;font-size:14.5px;color:var(--ink2);padding:7px 0 7px 30px;
+.idea ol li{counter-increment:b;font-size:14.5px;color:var(--ink2);padding:8px 0 8px 32px;
   position:relative;border-bottom:1px solid var(--line)}
 .idea ol li:last-child{border-bottom:0}
-.idea ol li::before{content:counter(b,decimal-leading-zero);position:absolute;left:0;top:7px;
-  font-size:11px;letter-spacing:.1em;color:var(--ink3)}
-@media(max-width:900px){
-  .idea{grid-template-columns:1fr;gap:18px}
-  .idea .no{font-size:28px}
+.idea ol li::before{content:counter(b,decimal-leading-zero);position:absolute;left:0;top:8px;
+  font-size:10.5px;letter-spacing:.12em;color:var(--ink3)}
+@media(max-width:940px){
+  .idea{grid-template-columns:1fr;gap:20px}
+  .idea .no{font-size:30px}
   .idea h3{font-size:26px}
 }
 
 /* ---------- story ---------- */
-.story{padding:96px 0 0}
-.story .wrap{display:grid;grid-template-columns:400px 1fr;gap:56px;align-items:center}
+.story .wrap{display:grid;grid-template-columns:420px 1fr;gap:64px;align-items:center}
 .story .shot{aspect-ratio:4/5;overflow:hidden;background:#ddd}
-.story .shot img{width:100%;height:100%;object-fit:cover}
-.story h2{font-family:var(--serif);font-weight:400;font-size:40px;line-height:1.08;
-  letter-spacing:-.012em;margin:12px 0 18px}
-.story p{color:var(--ink2);font-size:16.5px;line-height:1.72}
-.story p + p{margin-top:14px}
-@media(max-width:900px){.story .wrap{grid-template-columns:1fr;gap:28px}}
+.story .shot img{width:100%;height:100%;object-fit:cover;
+  transition:transform 1.6s cubic-bezier(.2,.7,.3,1)}
+.story .shot:hover img{transform:scale(1.035)}
+.story p{color:var(--ink2);font-size:16.5px;line-height:1.74}
+.story p + p{margin-top:16px}
+.story h2.big{margin-bottom:20px}
+@media(max-width:940px){.story .wrap{grid-template-columns:1fr;gap:30px}}
 
 /* ---------- cta ---------- */
-.cta{margin-top:96px;border-top:1px solid var(--ink);padding:70px 0 26px}
-.cta h2{font-family:var(--serif);font-weight:400;font-size:clamp(38px,5.6vw,68px);
-  line-height:1.02;letter-spacing:-.018em;max-width:16ch}
-.cta .row{display:flex;flex-wrap:wrap;align-items:center;gap:16px 26px;margin-top:32px}
+.cta{margin-top:112px;border-top:1px solid var(--ink);padding:78px 0 30px}
+.cta h2{font-family:var(--serif);font-weight:400;font-size:clamp(40px,6vw,74px);
+  line-height:1;letter-spacing:-.022em;max-width:15ch}
+.cta .row{display:flex;flex-wrap:wrap;align-items:center;gap:16px 28px;margin-top:36px}
 .btn{display:inline-block;background:var(--ink);color:var(--paper);text-decoration:none;
-  font-size:14px;font-weight:600;letter-spacing:.02em;padding:15px 30px;
-  transition:background .2s ease}
+  font-size:13px;font-weight:500;letter-spacing:.06em;text-transform:uppercase;
+  padding:17px 34px;transition:background .22s ease}
 .btn:hover{background:var(--accent)}
 .cta a.plain{font-size:16px;text-decoration:none;border-bottom:1px solid var(--line2);
-  padding-bottom:2px}
+  padding-bottom:3px;transition:border-color .2s ease}
 .cta a.plain:hover{border-color:var(--ink)}
-foot,footer{display:block;padding:38px 0 60px;color:var(--ink3);font-size:12px;line-height:1.7}
-footer .wrap{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap}
+footer{display:block;padding:40px 0 64px;color:var(--ink3);font-size:12px;line-height:1.7}
+footer .wrap{display:flex;justify-content:space-between;gap:24px;flex-wrap:wrap}
 </style>
 </head>
 <body>
 
 <div class="bar"><div class="wrap">
   <b>Marcus Vela</b>
-  <div class="st"><span class="dot"></span> Available for brand work · Phoenix, AZ</div>
+  <div class="st"><span class="dot"></span> Available for brand work &middot; Phoenix, AZ</div>
   <a class="mail" href="mailto:marcus.vela.aitest@ugc-world.com">Get in touch</a>
 </div></div>
 
 <!-- ============ HERO ============ -->
 <header class="hero"><div class="wrap">
-  <div>
-    <div class="eyebrow">Creator profile · Working tradesman</div>
+  <div class="rv">
+    <div class="eyebrow"><i>&#8212;</i> Creator profile &middot; Working tradesman</div>
     <h1>Marcus<em>Vela</em></h1>
     <p class="lede">Twelve years fixing air conditioning in Phoenix heat. If a tool or a
       gadget holds up, I already know.</p>
@@ -197,30 +206,30 @@ footer .wrap{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap}
       <div><span>On camera</span><b>Comfortable</b></div>
     </div>
   </div>
-  <figure class="portrait">
+  <figure class="portrait rv">
     <img src="img/p1_headshot.jpg" alt="Marcus Vela">
     <figcaption>Phoenix, Arizona</figcaption>
   </figure>
 </div></header>
 
-<!-- ============ SPECS ============ -->
-<section class="specs"><div class="wrap">
-  <div class="eyebrow">The specs</div>
+<!-- ============ 01 SPECS ============ -->
+<section><div class="wrap rv">
+  <div class="eyebrow"><i>01</i> The specs</div>
   <div class="specgrid">
     <div class="row"><div class="k">Look</div>
-      <div class="v">Working tradesman, mid thirties
+      <div class="v">Working tradesman, late thirties
         <small>Reads as the guy a customer actually trusts in their driveway</small></div></div>
     <div class="row"><div class="k">Voice</div>
       <div class="v">Direct, relatable, explains things
         <small>Talks to camera the way he talks to a customer</small></div></div>
     <div class="row"><div class="k">Films at</div>
-      <div class="v">Work van · Job site · Kitchen · Backyard · Desert trail</div></div>
+      <div class="v">Work van &middot; Job site &middot; Kitchen &middot; Backyard &middot; Desert trail</div></div>
     <div class="row"><div class="k">Already in frame</div>
-      <div class="v">Truck · Tools · Smoker grill · Mountain bike · Home workshop</div></div>
+      <div class="v">Truck &middot; Tools &middot; Smoker grill &middot; Mountain bike &middot; Workshop</div></div>
     <div class="row"><div class="k">Formats</div>
-      <div class="v">Talking head · Product demo · Tutorial · Problem and solution</div></div>
+      <div class="v">Talking head &middot; Product demo &middot; Tutorial &middot; Problem and solution</div></div>
     <div class="row"><div class="k">Best fit</div>
-      <div class="v">Home · Tools and automotive · Outdoors · Food and drink · Tech</div></div>
+      <div class="v">Home &middot; Tools and automotive &middot; Outdoors &middot; Food and drink &middot; Tech</div></div>
     <div class="row"><div class="k">Turnaround</div>
       <div class="v">Evenings and weekends, Arizona time</div></div>
     <div class="row"><div class="k">Not available for</div>
@@ -229,54 +238,62 @@ footer .wrap{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap}
   </div>
 </div></section>
 
-<!-- ============ LOOK ============ -->
-<section class="reel">
-  <div class="wrap"><div class="head">
+<!-- ============ 02 THE LOOK ============ -->
+<section>
+  <div class="wrap rv"><div class="reelhead">
     <div>
-      <div class="eyebrow">The look</div>
-      <h2>How I read on camera</h2>
+      <div class="eyebrow"><i>02</i> The look</div>
+      <h2 class="big">How I read on camera</h2>
     </div>
     <div class="navs">
       <button class="nav" id="prev" aria-label="Previous">
-        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
       </button>
       <button class="nav" id="next" aria-label="Next">
-        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
       </button>
     </div>
   </div></div>
 
-  <div class="railwrap"><div class="rail" id="rail">
-
+  <div class="railwrap rv"><div class="rail" id="rail">
     <button class="card" data-v>
       <video src="img/v1.mp4" poster="img/v1.jpg" playsinline muted loop preload="metadata"></video>
       <span class="play"><svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></span>
-      <span class="tag">Talking to camera · work van</span>
+      <span class="tag">Talking to camera &middot; work van</span>
     </button>
-
     <button class="card" data-v>
       <video src="img/v2.mp4" poster="img/v2.jpg" playsinline muted loop preload="metadata"></video>
       <span class="play"><svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></span>
-      <span class="tag">Product in hand · on the job</span>
+      <span class="tag">Product in hand &middot; on the job</span>
     </button>
-
-    <div class="card"><img src="img/p2_worksite.jpg" alt=""><span class="tag">Job site</span></div>
-    <div class="card"><img src="img/p6_truck.jpg" alt=""><span class="tag">Work van</span></div>
-    <div class="card"><img src="img/p3_kitchen.jpg" alt=""><span class="tag">Kitchen · morning</span></div>
-    <div class="card"><img src="img/p5_grill.jpg" alt=""><span class="tag">Backyard · smoker</span></div>
-    <div class="card"><img src="img/p4_bike.jpg" alt=""><span class="tag">Desert trail · sunrise</span></div>
-
+    <button class="card" data-v>
+      <video src="img/v3.mp4" poster="img/v3.jpg" playsinline muted loop preload="metadata"></video>
+      <span class="play"><svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></span>
+      <span class="tag">Demo &middot; job site</span>
+    </button>
+    <button class="card" data-v>
+      <video src="img/v4.mp4" poster="img/v4.jpg" playsinline muted loop preload="metadata"></video>
+      <span class="play"><svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></span>
+      <span class="tag">Kitchen &middot; evening</span>
+    </button>
+    <button class="card" data-v>
+      <video src="img/v5.mp4" poster="img/v5.jpg" playsinline muted loop preload="metadata"></video>
+      <span class="play"><svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></span>
+      <span class="tag">Backyard &middot; smoker at dusk</span>
+    </button>
   </div></div>
 </section>
 
-<!-- ============ CONCEPTS ============ -->
-<section class="work"><div class="wrap">
-  <div class="eyebrow">What I'd shoot for you</div>
-  <h2>Three I could film this week</h2>
-  <p class="sub">Written for the categories above, using what I already own. Nothing here has
-    been shot yet, so none of it is recycled from another brand.</p>
+<!-- ============ 03 CONCEPTS ============ -->
+<section><div class="wrap">
+  <div class="rv">
+    <div class="eyebrow"><i>03</i> What I'd shoot for you</div>
+    <h2 class="big">Three I could film this week</h2>
+    <p class="sub">Written for the categories above, using what I already own. Nothing here has
+      been shot yet, so none of it is recycled from another brand.</p>
+  </div>
 
-  <article class="idea">
+  <article class="idea rv">
     <div class="no">01</div>
     <div>
       <div class="cat">Home</div>
@@ -293,7 +310,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap}
     </ol>
   </article>
 
-  <article class="idea">
+  <article class="idea rv">
     <div class="no">02</div>
     <div>
       <div class="cat">Tools and tech</div>
@@ -310,7 +327,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap}
     </ol>
   </article>
 
-  <article class="idea">
+  <article class="idea rv">
     <div class="no">03</div>
     <div>
       <div class="cat">Food and drink</div>
@@ -328,12 +345,12 @@ footer .wrap{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap}
   </article>
 </div></section>
 
-<!-- ============ STORY ============ -->
+<!-- ============ 04 STORY ============ -->
 <section class="story"><div class="wrap">
-  <div class="shot"><img src="img/p3_kitchen.jpg" alt="Marcus at home"></div>
-  <div>
-    <div class="eyebrow">My story</div>
-    <h2>Four thousand attics in Phoenix heat</h2>
+  <div class="shot rv"><img src="img/p2_worksite.jpg" alt="Marcus on a job"></div>
+  <div class="rv">
+    <div class="eyebrow"><i>04</i> My story</div>
+    <h2 class="big">Four thousand attics in Phoenix heat</h2>
     <p>I have been an HVAC technician in Phoenix for twelve years and I run my own two van
       outfit now. Most of my calls are houses, which means attics, in summers that sit at 110
       outside and a lot worse up there.</p>
@@ -347,7 +364,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap}
 </div></section>
 
 <!-- ============ CTA ============ -->
-<section class="cta"><div class="wrap">
+<section class="cta"><div class="wrap rv">
   <h2>Send me the product and the brief.</h2>
   <div class="row">
     <a class="btn" href="mailto:marcus.vela.aitest@ugc-world.com">Get in touch</a>
@@ -362,66 +379,65 @@ footer .wrap{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap}
 </div></footer>
 
 <script>
+/* ---- reveal on scroll ---- */
+(function(){
+  var els = document.querySelectorAll('.rv');
+  if(!('IntersectionObserver' in window)){
+    els.forEach(function(e){ e.classList.add('in'); }); return;
+  }
+  var io = new IntersectionObserver(function(entries){
+    entries.forEach(function(en){
+      if(en.isIntersecting){ en.target.classList.add('in'); io.unobserve(en.target); }
+    });
+  }, {rootMargin:'0px 0px -10% 0px', threshold:.06});
+  els.forEach(function(e){ io.observe(e); });
+})();
+
+/* ---- the rail ---- */
 (function(){
   var rail = document.getElementById('rail');
   var prev = document.getElementById('prev');
   var next = document.getElementById('next');
   if(!rail) return;
 
-  /* Duplicate the set once so the drift can wrap without a visible seam. The clones are
-     hidden from assistive tech, they are decoration for the loop. */
-  var originals = Array.prototype.slice.call(rail.children);
-  var half = 0;
-  originals.forEach(function(node){
+  /* Clone the set once so the drift wraps with no visible seam. Clones are decoration,
+     so they are hidden from assistive tech. */
+  Array.prototype.slice.call(rail.children).forEach(function(node){
     var c = node.cloneNode(true);
     c.setAttribute('aria-hidden','true');
-    c.removeAttribute('id');
-    var v = c.querySelector('video');
-    if(v){ v.removeAttribute('controls'); }
     rail.appendChild(c);
   });
+  var half = 0;
   function measure(){ half = rail.scrollWidth / 2; }
   measure();
   window.addEventListener('resize', measure);
   if(window.ResizeObserver) new ResizeObserver(measure).observe(rail);
 
-  /* ---- the drift ---- */
-  var SPEED = 0.38;           // px per frame, roughly 23px a second
-  var paused = false, held = false, resumeAt = 0;
+  var SPEED = 0.35, paused = false, held = false, resumeAt = 0;
   var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   function wrapAround(){
     if(half <= 0) return;
     if(rail.scrollLeft >= half) rail.scrollLeft -= half;
-    else if(rail.scrollLeft <= 0) rail.scrollLeft += half;
+    else if(rail.scrollLeft < 0) rail.scrollLeft += half;
   }
-
   function tick(now){
     requestAnimationFrame(tick);
-    if(reduce || held || paused) return;
-    if(now < resumeAt) return;
+    if(reduce || held || paused || now < resumeAt) return;
     rail.scrollLeft += SPEED;
     wrapAround();
   }
   requestAnimationFrame(tick);
+  function nudge(){ resumeAt = performance.now() + 2400; }
 
-  /* hovering to watch a card should not fight you */
   rail.addEventListener('mouseenter', function(){ paused = true; });
   rail.addEventListener('mouseleave', function(){ paused = false; });
-  rail.addEventListener('focusin',    function(){ paused = true; });
-  rail.addEventListener('focusout',   function(){ paused = false; });
   document.addEventListener('visibilitychange', function(){ paused = document.hidden; });
 
-  function nudge(){ resumeAt = performance.now() + 2600; }
+  var STEP = 312;
+  if(prev) prev.addEventListener('click', function(){ nudge(); rail.scrollBy({left:-STEP*2,behavior:'smooth'}); });
+  if(next) next.addEventListener('click', function(){ nudge(); rail.scrollBy({left: STEP*2,behavior:'smooth'}); });
 
-  if(prev) prev.addEventListener('click', function(){
-    nudge(); rail.scrollBy({left:-(286+14)*2, behavior:'smooth'});
-  });
-  if(next) next.addEventListener('click', function(){
-    nudge(); rail.scrollBy({left:(286+14)*2, behavior:'smooth'});
-  });
-
-  /* ---- drag ---- */
   var down=false, moved=0, startX=0, startL=0;
   rail.addEventListener('pointerdown', function(e){
     if(e.button !== 0) return;
@@ -431,15 +447,14 @@ footer .wrap{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap}
   rail.addEventListener('pointermove', function(e){
     if(!down) return;
     var dx = e.clientX - startX;
-    if(Math.abs(dx) > 4 && !rail.classList.contains('grabbing')) rail.classList.add('grabbing');
+    if(Math.abs(dx) > 4) rail.classList.add('grabbing');
     moved = Math.max(moved, Math.abs(dx));
     rail.scrollLeft = startL - dx;
     wrapAround();
   });
   function release(e){
     if(!down) return;
-    down=false; held=false; nudge();
-    rail.classList.remove('grabbing');
+    down=false; held=false; nudge(); rail.classList.remove('grabbing');
     try{ rail.releasePointerCapture(e.pointerId); }catch(err){}
   }
   rail.addEventListener('pointerup', release);
@@ -448,18 +463,17 @@ footer .wrap{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap}
     if(moved > 6){ e.stopPropagation(); e.preventDefault(); }
   }, true);
 
-  /* ---- vertical wheel drives it sideways ---- */
   rail.addEventListener('wheel', function(e){
     if(Math.abs(e.deltaY) <= Math.abs(e.deltaX)) return;
-    e.preventDefault();
-    nudge();
+    e.preventDefault(); nudge();
     rail.scrollLeft += e.deltaY;
     wrapAround();
   }, {passive:false});
 
-  /* ---- video, on the clones too ---- */
+  /* Native controls stay hidden. That grey browser toolbar across the bottom of a card is
+     the single thing that makes a page like this look cheap. */
   rail.addEventListener('click', function(e){
-    var card = e.target.closest ? e.target.closest('.card[data-v]') : null;
+    var card = e.target.closest && e.target.closest('.card[data-v]');
     if(!card || moved > 6) return;
     var v = card.querySelector('video');
     if(!v) return;
@@ -469,18 +483,16 @@ footer .wrap{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap}
         if(ov && ov !== v){ ov.pause(); ov.currentTime = 0; o.classList.remove('on'); }
       });
       v.play(); card.classList.add('on'); paused = true;
-    } else {
-      v.pause(); card.classList.remove('on'); paused = false;
-    }
+    } else { v.pause(); card.classList.remove('on'); paused = false; }
   });
   rail.addEventListener('mouseover', function(e){
-    var card = e.target.closest ? e.target.closest('.card[data-v]') : null;
+    var card = e.target.closest && e.target.closest('.card[data-v]');
     if(!card || down) return;
     var v = card.querySelector('video');
     if(v && v.paused) v.play();
   });
   rail.addEventListener('mouseout', function(e){
-    var card = e.target.closest ? e.target.closest('.card[data-v]') : null;
+    var card = e.target.closest && e.target.closest('.card[data-v]');
     if(!card || card.classList.contains('on')) return;
     var v = card.querySelector('video');
     if(v){ v.pause(); v.currentTime = 0; }
