@@ -91,15 +91,21 @@ a{color:inherit}
 .nav:disabled{opacity:.28;cursor:default}
 @media(max-width:720px){.navs{display:none}}
 
-.rail{display:flex;gap:14px;margin-top:26px;overflow-x:auto;overflow-y:hidden;
-  scroll-snap-type:x proximity;scrollbar-width:none;padding-bottom:10px;
+.railwrap{position:relative;margin-top:26px}
+/* it drifts, so it has to flow off both edges rather than stop at a hard crop */
+.railwrap::before,.railwrap::after{content:"";position:absolute;top:0;bottom:0;width:90px;
+  z-index:2;pointer-events:none}
+.railwrap::before{left:0;background:linear-gradient(to right,var(--paper),transparent)}
+.railwrap::after{right:0;background:linear-gradient(to left,var(--paper),transparent)}
+
+.rail{display:flex;gap:14px;overflow-x:auto;overflow-y:hidden;
+  scrollbar-width:none;padding-bottom:4px;
   cursor:grab;user-select:none;-webkit-user-select:none}
-.rail.grabbing{cursor:grabbing;scroll-snap-type:none;scroll-behavior:auto}
+.rail.grabbing{cursor:grabbing;scroll-behavior:auto}
 .rail.grabbing .card{pointer-events:none}
 .rail::-webkit-scrollbar{display:none}
-.pad{flex:0 0 max(40px,calc((100vw - 1180px)/2 + 40px));height:1px}
 .card{flex:0 0 auto;width:286px;aspect-ratio:9/16;position:relative;overflow:hidden;
-  background:#e6e2db;scroll-snap-align:center;border:0;padding:0;cursor:default}
+  background:#e6e2db;border:0;padding:0;cursor:default}
 button.card{cursor:pointer;font:inherit;color:inherit;appearance:none}
 .card img,.card video{width:100%;height:100%;object-fit:cover;pointer-events:none}
 .card .tag{position:absolute;left:0;right:0;bottom:0;padding:36px 14px 13px;
@@ -110,12 +116,10 @@ button.card{cursor:pointer;font:inherit;color:inherit;appearance:none}
   transition:opacity .2s ease}
 .card.on .play{opacity:0}
 .card.on:hover .play{opacity:1}
-
-/* a real track, so it reads as a scroller instead of a cropped row */
-.track{height:2px;background:var(--line);margin-top:16px;position:relative;overflow:hidden}
-.track i{position:absolute;left:0;top:0;height:100%;background:var(--ink);width:22%;
-  transition:transform .08s linear}
-@media(max-width:900px){.card{width:220px}.pad{flex-basis:40px}}
+@media(max-width:900px){
+  .card{width:220px}
+  .railwrap::before,.railwrap::after{width:40px}
+}
 
 /* ---------- concepts ---------- */
 .work{padding:96px 0 0}
@@ -242,8 +246,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap}
     </div>
   </div></div>
 
-  <div class="rail" id="rail">
-    <div class="pad"></div>
+  <div class="railwrap"><div class="rail" id="rail">
 
     <button class="card" data-v>
       <video src="img/v1.mp4" poster="img/v1.jpg" playsinline muted loop preload="metadata"></video>
@@ -263,9 +266,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap}
     <div class="card"><img src="img/p5_grill.jpg" alt=""><span class="tag">Backyard · smoker</span></div>
     <div class="card"><img src="img/p4_bike.jpg" alt=""><span class="tag">Desert trail · sunrise</span></div>
 
-    <div class="pad"></div>
-  </div>
-  <div class="wrap"><div class="track"><i id="tbar"></i></div></div>
+  </div></div>
 </section>
 
 <!-- ============ CONCEPTS ============ -->
@@ -363,39 +364,68 @@ footer .wrap{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap}
 <script>
 (function(){
   var rail = document.getElementById('rail');
-  var bar  = document.getElementById('tbar');
   var prev = document.getElementById('prev');
   var next = document.getElementById('next');
   if(!rail) return;
 
-  var step = function(){
-    var c = rail.querySelector('.card');
-    return c ? c.offsetWidth + 14 : 300;
-  };
-  var max = function(){ return rail.scrollWidth - rail.clientWidth; };
+  /* Duplicate the set once so the drift can wrap without a visible seam. The clones are
+     hidden from assistive tech, they are decoration for the loop. */
+  var originals = Array.prototype.slice.call(rail.children);
+  var half = 0;
+  originals.forEach(function(node){
+    var c = node.cloneNode(true);
+    c.setAttribute('aria-hidden','true');
+    c.removeAttribute('id');
+    var v = c.querySelector('video');
+    if(v){ v.removeAttribute('controls'); }
+    rail.appendChild(c);
+  });
+  function measure(){ half = rail.scrollWidth / 2; }
+  measure();
+  window.addEventListener('resize', measure);
+  if(window.ResizeObserver) new ResizeObserver(measure).observe(rail);
 
-  function paint(){
-    var m = max();
-    var pct = m > 0 ? rail.scrollLeft / m : 0;
-    var w = rail.clientWidth / rail.scrollWidth;
-    bar.style.width = (w * 100) + '%';
-    bar.style.transform = 'translateX(' + (pct * (100 / w - 100)) + '%)';
-    if(prev) prev.disabled = rail.scrollLeft < 4;
-    if(next) next.disabled = rail.scrollLeft > m - 4;
+  /* ---- the drift ---- */
+  var SPEED = 0.38;           // px per frame, roughly 23px a second
+  var paused = false, held = false, resumeAt = 0;
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  function wrapAround(){
+    if(half <= 0) return;
+    if(rail.scrollLeft >= half) rail.scrollLeft -= half;
+    else if(rail.scrollLeft <= 0) rail.scrollLeft += half;
   }
-  rail.addEventListener('scroll', paint, {passive:true});
-  window.addEventListener('resize', paint);
-  paint();
 
-  if(prev) prev.addEventListener('click', function(){ rail.scrollBy({left:-step()*2, behavior:'smooth'}); });
-  if(next) next.addEventListener('click', function(){ rail.scrollBy({left: step()*2, behavior:'smooth'}); });
+  function tick(now){
+    requestAnimationFrame(tick);
+    if(reduce || held || paused) return;
+    if(now < resumeAt) return;
+    rail.scrollLeft += SPEED;
+    wrapAround();
+  }
+  requestAnimationFrame(tick);
 
-  /* Click and drag. A mouse cannot scroll a horizontal overflow box on its own, which is
-     why this looked like a cropped row instead of a scroller. */
+  /* hovering to watch a card should not fight you */
+  rail.addEventListener('mouseenter', function(){ paused = true; });
+  rail.addEventListener('mouseleave', function(){ paused = false; });
+  rail.addEventListener('focusin',    function(){ paused = true; });
+  rail.addEventListener('focusout',   function(){ paused = false; });
+  document.addEventListener('visibilitychange', function(){ paused = document.hidden; });
+
+  function nudge(){ resumeAt = performance.now() + 2600; }
+
+  if(prev) prev.addEventListener('click', function(){
+    nudge(); rail.scrollBy({left:-(286+14)*2, behavior:'smooth'});
+  });
+  if(next) next.addEventListener('click', function(){
+    nudge(); rail.scrollBy({left:(286+14)*2, behavior:'smooth'});
+  });
+
+  /* ---- drag ---- */
   var down=false, moved=0, startX=0, startL=0;
   rail.addEventListener('pointerdown', function(e){
     if(e.button !== 0) return;
-    down=true; moved=0; startX=e.clientX; startL=rail.scrollLeft;
+    down=true; held=true; moved=0; startX=e.clientX; startL=rail.scrollLeft;
     rail.setPointerCapture(e.pointerId);
   });
   rail.addEventListener('pointermove', function(e){
@@ -404,43 +434,56 @@ footer .wrap{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap}
     if(Math.abs(dx) > 4 && !rail.classList.contains('grabbing')) rail.classList.add('grabbing');
     moved = Math.max(moved, Math.abs(dx));
     rail.scrollLeft = startL - dx;
+    wrapAround();
   });
   function release(e){
     if(!down) return;
-    down=false; rail.classList.remove('grabbing');
+    down=false; held=false; nudge();
+    rail.classList.remove('grabbing');
     try{ rail.releasePointerCapture(e.pointerId); }catch(err){}
   }
   rail.addEventListener('pointerup', release);
   rail.addEventListener('pointercancel', release);
-  /* a drag that ends over a video must not also count as a play tap */
-  rail.addEventListener('click', function(e){ if(moved > 6){ e.stopPropagation(); e.preventDefault(); } }, true);
+  rail.addEventListener('click', function(e){
+    if(moved > 6){ e.stopPropagation(); e.preventDefault(); }
+  }, true);
 
-  /* vertical wheel scrolls the rail while the pointer is over it */
+  /* ---- vertical wheel drives it sideways ---- */
   rail.addEventListener('wheel', function(e){
     if(Math.abs(e.deltaY) <= Math.abs(e.deltaX)) return;
-    var m = max();
-    if((rail.scrollLeft <= 0 && e.deltaY < 0) || (rail.scrollLeft >= m && e.deltaY > 0)) return;
     e.preventDefault();
+    nudge();
     rail.scrollLeft += e.deltaY;
+    wrapAround();
   }, {passive:false});
 
-  /* Tap or hover to play. Native controls are hidden on purpose, the browser toolbar is
-     what makes a card like this look cheap. */
-  document.querySelectorAll('.card[data-v]').forEach(function(card){
+  /* ---- video, on the clones too ---- */
+  rail.addEventListener('click', function(e){
+    var card = e.target.closest ? e.target.closest('.card[data-v]') : null;
+    if(!card || moved > 6) return;
     var v = card.querySelector('video');
-    card.addEventListener('click', function(){
-      if(moved > 6) return;
-      if(v.paused){
-        document.querySelectorAll('.card[data-v] video').forEach(function(o){
-          if(o !== v){ o.pause(); o.currentTime = 0; o.closest('.card').classList.remove('on'); }
-        });
-        v.play(); card.classList.add('on');
-      } else { v.pause(); card.classList.remove('on'); }
-    });
-    card.addEventListener('mouseenter', function(){ if(v.paused && !down) v.play(); });
-    card.addEventListener('mouseleave', function(){
-      if(!card.classList.contains('on')){ v.pause(); v.currentTime = 0; }
-    });
+    if(!v) return;
+    if(v.paused){
+      rail.querySelectorAll('.card[data-v]').forEach(function(o){
+        var ov = o.querySelector('video');
+        if(ov && ov !== v){ ov.pause(); ov.currentTime = 0; o.classList.remove('on'); }
+      });
+      v.play(); card.classList.add('on'); paused = true;
+    } else {
+      v.pause(); card.classList.remove('on'); paused = false;
+    }
+  });
+  rail.addEventListener('mouseover', function(e){
+    var card = e.target.closest ? e.target.closest('.card[data-v]') : null;
+    if(!card || down) return;
+    var v = card.querySelector('video');
+    if(v && v.paused) v.play();
+  });
+  rail.addEventListener('mouseout', function(e){
+    var card = e.target.closest ? e.target.closest('.card[data-v]') : null;
+    if(!card || card.classList.contains('on')) return;
+    var v = card.querySelector('video');
+    if(v){ v.pause(); v.currentTime = 0; }
   });
 })();
 </script>
