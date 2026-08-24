@@ -693,10 +693,13 @@ footer a{color:var(--mute-2)}
         off the GHL contact so a submission can be matched back without trusting what they type.</li>
       <li>The form still asks for name, email and phone as visible questions. That is on purpose.
         If somebody opens the link fresh, outside the funnel, the hidden fields are empty and those
-        three answers are the only way to identify them.</li>
-      <li><b>Photos are five separate required upload questions, then five optional ones.</b>
-        Typeform takes one file per question, so ten photos means ten questions. Same for the three
-        optional video slots. This is a Typeform limit, not a design choice.</li>
+        answers are the only way to identify them.</li>
+      <li><b>Photos are five required upload questions, then three optional ones.</b>
+        Typeform takes one file per question, so every extra photo is another screen. Two optional
+        video slots on top. This is a Typeform limit, not a design choice.</li>
+      <li>Name, email and phone are a single <b>contact_info</b> block, so all four inputs land on
+        one screen instead of four. Socials are one free-text box, not one field per platform.
+        25 screens total. Do not add group wrappers, each one costs a wasted intro click.</li>
       <li>The fallback link under the embed opens the form in a new tab. Leave it there, some
         in-app browsers block the iframe.</li>
       <li>Do not edit the questions inside the GHL builder. Edit them in Typeform and the page
