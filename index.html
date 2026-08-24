@@ -69,9 +69,11 @@ button{font-family:inherit}
 .tfwrap iframe{width:100%;height:100%;border:0;display:block}
 @media(max-width:640px){.tfwrap{height:min(80vh,640px);min-height:520px}}
 /* merge-field token */
-.tok{display:inline-block;background:rgba(124,58,237,.10);color:#7c3aed;
+.tok{white-space:nowrap}
+body.buildmode .tok{display:inline-block;background:rgba(124,58,237,.10);color:#7c3aed;
   border:1px dashed rgba(124,58,237,.45);border-radius:6px;padding:1px 7px;
-  font-weight:700;font-size:.94em;letter-spacing:.1px;white-space:nowrap}
+  font-weight:700;font-size:.94em;letter-spacing:.1px}
+body:not(.buildmode) .demo{display:none}
 .when .tok,.rp .tok,.rd .tok{font-size:.92em}
 .btn .tok{background:rgba(255,255,255,.18);border-color:rgba(255,255,255,.5);color:#fff}
 .pf .tok{border-style:dashed}
@@ -487,7 +489,7 @@ footer a{color:var(--mute-2)}
   <div class="wrap narrow">
     <div class="tfwrap">
       <iframe id="tf"
-        src="https://form.typeform.com/to/P2I1cnTV?email_hidden={{contact.email}}&amp;contact_id={{contact.id}}&amp;first_name={{contact.first_name}}"
+        src="https://form.typeform.com/to/P2I1cnTV"
         title="VIP DFY Portfolio Questionnaire" loading="lazy"
         allow="camera; microphone; autoplay; encrypted-media;"></iframe>
     </div>
@@ -555,7 +557,7 @@ footer a{color:var(--mute-2)}
 
     </div>
     <div class="center" style="margin-top:26px">
-      <a href="{{custom_values.success_center_url}}" target="_blank" rel="noopener" class="btn inline"
+      <a href="https://ugc-world.com/creator" target="_blank" rel="noopener" class="btn inline"
          style="margin:0 auto"><span class="lab">OPEN MY SUCCESS CENTER &rarr;</span></a>
     </div>
   </div>
@@ -627,49 +629,56 @@ footer a{color:var(--mute-2)}
 </section>
 
 <!-- ============ BUILD NOTES - INTERNAL ONLY, DELETE BEFORE LAUNCH ============ -->
-<section id="build">
+<section id="build" hidden>
   <div class="wrap narrow">
     <span class="kicker">BUILD NOTES &middot; INTERNAL</span>
     <h2 class="h2">How to build this page</h2>
     <p class="n">This page is the VIP confirmation page. A lead lands here the second they buy the
-      VIP ticket. Everything above is the finished design. Nothing above is placeholder copy, so do
-      not rewrite the words. The only things to change are the dashed purple
-      <span class="tok">{{tokens}}</span> and the links listed below.</p>
-    <p class="n"><b style="color:var(--violet-ink)">Delete this whole BUILD NOTES section before the
-      page goes live.</b> It is the last section in the HTML, right before the footer.</p>
+      VIP ticket. The design and the copy are finished, do not rewrite the words.</p>
+    <p class="n">The page is served from GitHub Pages at <b>vipconfirm.ugc-world.com</b> and shown
+      inside a GHL funnel at <b>ugc-world.com/vipconfirm</b>. <b style="color:var(--violet-ink)">Merge
+      fields do not survive an iframe</b>, so nothing personal is written into the HTML. GHL resolves
+      the tokens in the funnel body tracking code and passes them through the iframe URL, and the
+      page reads them off the query string. That tracking code block is the only place you edit.</p>
+    <p class="n">You are seeing this section because the URL has <b>?build=1</b> on it. Buyers never
+      see it, and neither do the dashed token outlines. Nothing to delete before launch.</p>
 
-    <h3>1. Merge fields to wire</h3>
-    <p class="n">Every token appears more than once on the page. Search the HTML for the token text
-      and replace all instances. Never type a real date, name, or number into the page.</p>
+    <h3>1. The tracking code block</h3>
+    <p class="n">Funnel &gt; Settings &gt; <b>Body tracking code</b>. Not page-level footer tracking,
+      that one strips bare HTML elements and your iframe silently vanishes. Paste this, with the CSS
+      that hides the GHL shell, and set the four Custom Values it references.</p>
+    <div class="bscroll"><table class="bt"><tr><td style="white-space:pre-wrap;font-size:13.5px;line-height:1.75;color:var(--violet-ink)">&lt;style&gt;#preview-container,.bg-fixed{display:none!important}&lt;/style&gt;
+&lt;iframe src="https://vipconfirm.ugc-world.com/?fn={{contact.first_name}}&amp;amp;em={{contact.email}}&amp;amp;cid={{contact.id}}&amp;amp;cd={{custom_values.class_date}}&amp;amp;ct={{custom_values.class_time}}&amp;amp;cl={{custom_values.class_length}}&amp;amp;cs={{custom_values.class_start_iso}}"
+  style="position:fixed;top:0;left:0;width:100vw;height:100vh;border:0;z-index:2147483647"&gt;&lt;/iframe&gt;</td></tr></table></div>
+    <p class="n" style="margin-top:12px">Never hide <b>#__nuxt</b> or use
+      <b>body &gt; *:not(...)</b>. The custom code div is nested inside #__nuxt, so both rules hide
+      your own iframe. It computes as visible while measuring 0x0, which is the tell.</p>
     <div class="bscroll">
     <table class="bt">
-      <tr><th>Token</th><th>Where it comes from</th><th>If it is empty</th></tr>
-      <tr><td>{{contact.first_name}}</td><td>VIP checkout. Used in the SMS mockup and to prefill the name input</td><td>Show "there" in the SMS line, leave the name input blank</td></tr>
-      <tr><td>{{contact.last_name}}</td><td>VIP checkout. Prefills the name input only</td><td>Show nothing</td></tr>
-      <tr><td>{{contact.email}}</td><td>VIP checkout. Passed into the Typeform as the hidden field <b>email_hidden</b></td><td>They type it themselves, the form asks for it anyway</td></tr>
-      <tr><td>{{contact.id}}</td><td>GHL contact id. Passed into the Typeform as the hidden field <b>contact_id</b></td><td>Match on email instead</td></tr>
-      <tr><td>{{custom_values.class_date}}</td><td>GHL Custom Value, updated per class</td><td>Do not launch without it</td></tr>
-      <tr><td>{{custom_values.class_time}}</td><td>GHL Custom Value, include the timezone</td><td>Do not launch without it</td></tr>
-      <tr><td>{{custom_values.class_length}}</td><td>GHL Custom Value</td><td>Do not launch without it</td></tr>
-      <tr><td>{{custom_values.success_center_url}}</td><td>GHL Custom Value</td><td>Hide the button</td></tr>
-      <tr><td>{{custom_values.terms_url}}</td><td>GHL Custom Value</td><td>Hide the link</td></tr>
-      <tr><td>{{custom_values.privacy_url}}</td><td>GHL Custom Value</td><td>Hide the link</td></tr>
-      <tr><td>{{custom_values.contact_url}}</td><td>GHL Custom Value</td><td>Hide the link</td></tr>
+      <tr><th>Param</th><th>Where it comes from</th><th>If it is empty</th></tr>
+      <tr><td>fn</td><td>{{contact.first_name}} off the VIP checkout</td><td>The page says "there"</td></tr>
+      <tr><td>em</td><td>{{contact.email}}. Only used to prefill the Typeform hidden field</td><td>Typeform asks them for it anyway</td></tr>
+      <tr><td>cid</td><td>{{contact.id}}. The Typeform hidden field that matches a response to a contact</td><td>Match on email instead</td></tr>
+      <tr><td>cd</td><td>Custom Value <b>class_date</b>, e.g. Sunday, August 30</td><td>The page says "the live class"</td></tr>
+      <tr><td>ct</td><td>Custom Value <b>class_time</b>, include the timezone</td><td>The page points them at their email</td></tr>
+      <tr><td>cl</td><td>Custom Value <b>class_length</b>, e.g. 90 minutes</td><td>Defaults to 90 minutes</td></tr>
+      <tr><td>cs</td><td>Custom Value <b>class_start_iso</b>, the start in ISO 8601 with an offset, e.g. 2026-08-30T14:00:00-04:00. This is what builds the calendar file</td><td>Calendar buttons tell them to watch their email instead of downloading a broken invite</td></tr>
     </table>
     </div>
-    <div class="hl" style="margin-top:14px">The class date and time move. They live in Custom Values
-      so one edit updates every place they appear. Do not hardcode them anywhere on this page.</div>
+    <div class="hl" style="margin-top:14px">The class date and time move. Four Custom Values are the
+      only copy, and one edit updates all seven places they appear plus the calendar file. Never type
+      a date into the page or the tracking code.</div>
 
     <h3>2. Things to plug in</h3>
     <div class="bscroll">
     <table class="bt">
       <tr><th>Where</th><th>What goes there</th></tr>
       <tr><td>Step One player</td><td>The VIP confirmation video. Autoplay off, big play button, no related videos at the end. Replace the "~3 minutes" caption and the 3:04 badge with the real runtime.</td></tr>
-      <tr><td>Every ADD TO CALENDAR button</td><td>Same calendar action on all three buttons. Serve an .ics download plus a Google Calendar link. Title, date, time and duration come from the Custom Values above.</td></tr>
+      <tr><td>Every ADD TO CALENDAR button</td><td>Already done. All three build a real .ics in the browser from <b>cs</b> and <b>cl</b>. Nothing to wire. If <b>cs</b> is missing they degrade to an honest message instead of a broken invite.</td></tr>
       <tr><td>Step Three</td><td>Already done. It is a Typeform iframe, form id <b>P2I1cnTV</b>. Do not rebuild the questions in GHL. See section 3.</td></tr>
       <tr><td>Step Four player</td><td>The 0 to First 4 Figures Creator Roadmap video. Replace the 20:00 badge with the real runtime.</td></tr>
       <tr><td>Portfolio card, Step Five</td><td>Two states. BUILDING is the default. READY swaps the pill, kills the loader bar, and enables the VIEW PORTFOLIO button pointed at their portfolio link. Use the BUILD toggle on the card to see both.</td></tr>
-      <tr><td>OPEN MY SUCCESS CENTER</td><td>Success centre URL, opens in a new tab.</td></tr>
+      <tr><td>Footer and Success Center links</td><td>Already hardcoded, they do not change. ugc-world.com/creator, /terms, /privacy, and support@ugc-world.com.</td></tr>
     </table>
     </div>
 
@@ -710,21 +719,21 @@ footer a{color:var(--mute-2)}
     <h3>5. Before you hand it back</h3>
     <ul>
       <li>Test on a phone first. Most VIP buyers open this on mobile.</li>
-      <li>Load the page as a real contact and confirm no raw <span class="tok">{{token}}</span> text is visible anywhere.</li>
-      <li>Click all three calendar buttons and confirm the same event lands.</li>
+      <li>Load it as a real contact and confirm the name in the text-message card is theirs, not "there". "there" means GHL did not resolve {{contact.first_name}} and the funnel has no contact context.</li>
+      <li>Click all three calendar buttons and confirm the .ics opens with the right date, time and length.</li>
       <li>Submit the form end to end with real photos and confirm the webhook lands on the contact record.</li>
       <li>Load the page as a real contact and confirm the three hidden fields arrive in the Typeform response, not blank.</li>
       <li>Check the embed on an iPhone in the Instagram in-app browser. That is where iframes break.</li>
-      <li>Confirm the BUILD NOTES section is deleted.</li>
+      <li>Open the page WITHOUT ?build=1 and confirm no dashed outlines and no BUILD NOTES.</li>
     </ul>
   </div>
 </section>
 
 <footer>
   <div class="wrap">
-    Copyright &copy; UGC World 2026 &nbsp;|&nbsp; <a href="{{custom_values.terms_url}}">Terms of Service</a>
-    &nbsp;|&nbsp; <a href="{{custom_values.privacy_url}}">Privacy Policy</a>
-    &nbsp;|&nbsp; <a href="{{custom_values.contact_url}}">Contact</a>
+    Copyright &copy; UGC World 2026 &nbsp;|&nbsp; <a href="https://ugc-world.com/terms" target="_blank" rel="noopener">Terms of Service</a>
+    &nbsp;|&nbsp; <a href="https://ugc-world.com/privacy" target="_blank" rel="noopener">Privacy Policy</a>
+    &nbsp;|&nbsp; <a href="mailto:support@ugc-world.com">Contact</a>
   </div>
 </footer>
 
@@ -759,9 +768,95 @@ $$('[data-play]').forEach(p=>{
   });
 });
 
-/* calendar */
-$$('[data-cal]').forEach(b=>b.addEventListener('click',()=>{
-  toast('BUILD: fire the .ics download / Google Calendar link here.');
+/* ------------------------------------------------------------------
+   GHL passes everything through the iframe URL, because merge fields
+   do not survive an iframe. The funnel-level body tracking code holds
+   the only copy of these tokens; this reads what it resolved.
+   ------------------------------------------------------------------ */
+const Q = new URLSearchParams(location.search);
+const P = {
+  fn: Q.get('fn'), em: Q.get('em'), cid: Q.get('cid'),
+  cd: Q.get('cd'), ct: Q.get('ct'), cl: Q.get('cl'), cs: Q.get('cs'),
+};
+const unresolved = v => !v || /^\s*\{\{/.test(v);
+const BUILD = Q.get('build') === '1';
+
+if(BUILD){
+  document.body.classList.add('buildmode');
+  const bn = $('#build'); if(bn) bn.hidden = false;
+} else {
+  const FALLBACK = {
+    '{{contact.first_name}}':'there',
+    '{{contact.last_name}}':'',
+    '{{custom_values.class_date}}':'the live class',
+    '{{custom_values.class_time}}':'check your email for the time',
+    '{{custom_values.class_length}}':'90 minutes',
+  };
+  const VALUE = {
+    '{{contact.first_name}}': P.fn,
+    '{{custom_values.class_date}}': P.cd,
+    '{{custom_values.class_time}}': P.ct,
+    '{{custom_values.class_length}}': P.cl,
+  };
+  $$('.tok').forEach(el=>{
+    const k = el.textContent.trim();
+    if(!(k in FALLBACK)) return;
+    const v = VALUE[k];
+    el.textContent = unresolved(v) ? FALLBACK[k] : v;
+  });
+}
+
+/* hidden fields onto the Typeform, only the ones GHL actually resolved */
+(function(){
+  const tf = $('#tf'); if(!tf) return;
+  const u = new URL(tf.src);
+  if(!unresolved(P.em))  u.searchParams.set('email_hidden', P.em);
+  if(!unresolved(P.cid)) u.searchParams.set('contact_id', P.cid);
+  if(!unresolved(P.fn))  u.searchParams.set('first_name', P.fn);
+  if(u.href !== tf.src) tf.src = u.href;
+  const open = document.querySelector('a[href^="https://form.typeform.com"]');
+  if(open) open.href = u.href;
+})();
+
+/* ---- calendar: real .ics built from cs=<ISO start> ---- */
+function pad(n){ return String(n).padStart(2,'0'); }
+function utc(d){
+  return d.getUTCFullYear()+pad(d.getUTCMonth()+1)+pad(d.getUTCDate())+'T'
+       + pad(d.getUTCHours())+pad(d.getUTCMinutes())+'00Z';
+}
+function classStart(){
+  if(unresolved(P.cs)) return null;
+  const d = new Date(P.cs);
+  return isNaN(d) ? null : d;
+}
+function minutes(){
+  const m = /(\d+)/.exec(P.cl || '');
+  return m ? Math.max(15, +m[1]) : 90;
+}
+$$('[data-cal]').forEach(b=>b.addEventListener('click', e=>{
+  const start = classStart();
+  if(!start){
+    toast('The class time is going out by email and text. Watch for it.');
+    return;
+  }
+  const end = new Date(start.getTime() + minutes()*60000);
+  const ics = [
+    'BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//UGC World//VIP//EN','CALSCALE:GREGORIAN',
+    'METHOD:PUBLISH','BEGIN:VEVENT',
+    'UID:ugcworld-vip-'+utc(start)+'@ugc-world.com',
+    'DTSTAMP:'+utc(new Date()),
+    'DTSTART:'+utc(start),'DTEND:'+utc(end),
+    'SUMMARY:UGC World Live Creator Workshop',
+    'DESCRIPTION:Bring your finished portfolio. Everything you need is at '
+      + location.origin + location.pathname,
+    'URL:'+location.origin+location.pathname,
+    'END:VEVENT','END:VCALENDAR',
+  ].join('\r\n');
+  const a = document.createElement('a');
+  a.href = 'data:text/calendar;charset=utf-8,' + encodeURIComponent(ics);
+  a.download = 'ugc-world-creator-workshop.ics';
+  document.body.appendChild(a); a.click(); a.remove();
+  toast('Added. Check your downloads if it did not open.');
 }));
 
 /* success-center demo toggle */
