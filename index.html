@@ -490,27 +490,24 @@ footer a{color:var(--mute-2)}
         <!-- STEP 1 -->
         <div class="fstep" data-step="1">
           <div class="stepname">Basic creator identity</div>
-          <div class="stepsub">We already have some of this from your registration. Just check it looks right.</div>
+          <div class="stepsub">Quick one. Just so we know who we're building for and where to send it.</div>
 
-          <div class="prefill">
-            <div class="t"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
-              Already saved from your registration</div>
-            <div class="pf">
-              <div><span>Name</span><b class="tok">{{contact.first_name}} {{contact.last_name}}</b></div>
-              <div><span>Experience</span><b class="tok">{{contact.experience_level}}</b></div>
-              <div><span>Goal</span><b class="tok">{{contact.income_goal}}</b></div>
-              <div><span>Initial niche</span><b class="tok">{{contact.initial_niche}}</b></div>
-              <div><span>Age</span><b class="tok">{{contact.age_range}}</b></div>
-              <div><span>Occupation</span><b class="tok">{{contact.occupation}}</b></div>
-              <div><span>Instagram</span><b class="tok">{{contact.instagram_handle}}</b></div>
-            </div>
-            <button class="pf-edit" data-toast="BUILD: opens an edit drawer so they can correct a wrong prefill.">Something wrong? Edit these</button>
+          <div class="q">
+            <label class="qlab">What name should we put on your portfolio?</label>
+            <p class="help">However you'd want a brand to see it.</p>
+            <input type="text" value="{{contact.first_name}} {{contact.last_name}}">
           </div>
 
           <div class="q">
             <label class="qlab">What's the best number for your portfolio?</label>
             <p class="help">This is where we'll text you the moment it's ready.</p>
             <input type="text" value="{{contact.phone}}" inputmode="tel">
+          </div>
+
+          <div class="q">
+            <label class="qlab">Your Instagram or TikTok handle <span style="font-weight:600;color:var(--mute-2);font-size:14px">(optional)</span></label>
+            <p class="help">Only if you have one. It helps us see how you already show up. Leave it blank if you're starting fresh.</p>
+            <input type="text" placeholder="@yourhandle">
           </div>
         </div>
 
@@ -852,15 +849,9 @@ footer a{color:var(--mute-2)}
     <div class="bscroll">
     <table class="bt">
       <tr><th>Token</th><th>Where it comes from</th><th>If it is empty</th></tr>
-      <tr><td>{{contact.first_name}}</td><td>GHL contact record</td><td>Show "there"</td></tr>
-      <tr><td>{{contact.last_name}}</td><td>GHL contact record</td><td>Show nothing</td></tr>
-      <tr><td>{{contact.phone}}</td><td>GHL contact record, prefills the phone input</td><td>Leave the input blank, do not prefill</td></tr>
-      <tr><td>{{contact.experience_level}}</td><td>Registration form custom field</td><td>Hide that prefill row</td></tr>
-      <tr><td>{{contact.income_goal}}</td><td>Registration form custom field</td><td>Hide that prefill row</td></tr>
-      <tr><td>{{contact.initial_niche}}</td><td>Registration form custom field</td><td>Hide that prefill row</td></tr>
-      <tr><td>{{contact.age_range}}</td><td>Registration form custom field</td><td>Hide that prefill row</td></tr>
-      <tr><td>{{contact.occupation}}</td><td>Registration form custom field</td><td>Hide that prefill row</td></tr>
-      <tr><td>{{contact.instagram_handle}}</td><td>Registration form custom field</td><td>Hide that prefill row</td></tr>
+      <tr><td>{{contact.first_name}}</td><td>VIP checkout. Used in the SMS mockup and to prefill the name input</td><td>Show "there" in the SMS line, leave the name input blank</td></tr>
+      <tr><td>{{contact.last_name}}</td><td>VIP checkout. Prefills the name input only</td><td>Show nothing</td></tr>
+      <tr><td>{{contact.phone}}</td><td>VIP checkout. Prefills the phone input</td><td>Leave the input blank, do not prefill</td></tr>
       <tr><td>{{custom_values.class_date}}</td><td>GHL Custom Value, updated per class</td><td>Do not launch without it</td></tr>
       <tr><td>{{custom_values.class_time}}</td><td>GHL Custom Value, include the timezone</td><td>Do not launch without it</td></tr>
       <tr><td>{{custom_values.class_length}}</td><td>GHL Custom Value</td><td>Do not launch without it</td></tr>
@@ -889,7 +880,7 @@ footer a{color:var(--mute-2)}
     <h3>3. Form rules</h3>
     <ul>
       <li>Four parts. The progress bar and the "Part X of 4" label update on every step.</li>
-      <li><b>Part 1</b> prefills from the registration record and is read only, except the phone number, which they can edit. "Something wrong? Edit these" opens an edit drawer.</li>
+      <li><b>Part 1</b> is three fields. Name and phone prefill from the VIP checkout and stay editable. Handle is optional and always starts blank. There is no registration survey feeding this page, so nothing else is known about them before they fill this in.</li>
       <li><b>Part 3 photos:</b> minimum 5, maximum 10. JPG, PNG, HEIC. They cannot continue under 5.</li>
       <li><b>Part 3 videos:</b> "Nope, I'm completely starting from zero" is exclusive. Selecting it clears every other option and hides the upload block. Selecting any other option clears it and reveals the upload block.</li>
       <li><b>Part 4 caps:</b> personality is max 3, brand types is max 5. Once the cap is hit the remaining options grey out and the counter turns.</li>
