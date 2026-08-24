@@ -1,0 +1,989 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>You're VIP — UGC World</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* ---- tokens lifted from ugc-world.com/confirmation ---- */
+:root{
+  --violet:#7A5AF8;
+  --violet-d:#6305A6;
+  --violet-ink:#140626;
+  --lav:#F7F1FE;
+  --lav-2:#F2EFFC;
+  --lav-3:#E6E0F4;
+  --white:#fff;
+  --ink:#0D0D0D;
+  --mute:#6B647C;
+  --mute-2:#8893A8;
+  --line:#E4DEF3;
+  --green:#12A150;
+  --green-bg:#E7F7EE;
+  --amber:#B4690E;
+  --amber-bg:#FDF3E2;
+  --disp:'Montserrat',-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  --body:'Inter',-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  --r:14px; --r-lg:22px; --r-pill:30px;
+  --sh:0 2px 6px rgba(20,6,38,.07);
+  --sh-lg:0 10px 34px rgba(20,6,38,.10);
+}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--lav);color:var(--ink);font-family:var(--body);
+ font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased}
+img{max-width:100%;display:block}
+h1,h2,h3,h4{font-family:var(--disp);margin:0;color:var(--violet-ink);line-height:1.18}
+p{margin:0}
+button{font-family:inherit}
+.wrap{width:100%;max-width:1060px;margin:0 auto;padding:0 20px}
+.narrow{max-width:760px}
+
+/* demo ribbon */
+.demo{background:var(--amber-bg);color:var(--amber);text-align:center;
+ font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;padding:7px 14px;
+ border-bottom:1px solid #F0DFC0}
+.topbar{background:var(--violet-ink);color:#fff;text-align:center;padding:13px 16px;
+ font-family:var(--disp);font-weight:800;font-size:15px}
+
+/* shared */
+.eyebrow{display:inline-flex;align-items:center;gap:9px;color:var(--violet);
+ font-family:var(--disp);font-weight:700;font-size:14px;letter-spacing:.02em}
+.eyebrow .dot{width:10px;height:10px;border-radius:50%;background:var(--violet);flex:none}
+.rule{display:flex;align-items:center;gap:16px;color:var(--mute-2);font-size:12px;
+ font-weight:600;letter-spacing:.18em;text-transform:uppercase;margin:0 0 18px}
+.rule::before,.rule::after{content:"";flex:1;height:1px;background:var(--line)}
+section{padding:clamp(48px,6vw,76px) 0}
+.h2{font-size:clamp(28px,4.4vw,42px);font-weight:900;letter-spacing:-.01em}
+.sub{color:var(--mute);font-size:clamp(15px,1.6vw,17px);margin-top:12px}
+.center{text-align:center}
+.center .eyebrow,.center .rule{justify-content:center}
+.card{background:var(--white);border:1px solid var(--line);border-radius:var(--r-lg);
+ box-shadow:var(--sh)}
+.btn{display:block;width:100%;background:var(--violet);color:#fff;border:none;
+ border-radius:var(--r-pill);padding:20px 24px;text-align:center;cursor:pointer;
+ text-decoration:none;box-shadow:0 6px 18px rgba(122,90,248,.32);transition:transform .12s,filter .12s}
+.btn:hover{filter:brightness(1.06);transform:translateY(-1px)}
+.btn:active{transform:translateY(0)}
+.btn .lab{display:block;font-family:var(--disp);font-weight:800;font-size:clamp(17px,2vw,22px)}
+.btn .sml{display:block;font-size:13px;opacity:.85;margin-top:3px}
+.btn.ghost{background:transparent;color:var(--violet-ink);border:2px solid var(--lav-3);box-shadow:none}
+.btn.ghost:hover{background:var(--lav-2)}
+.btn[disabled]{background:var(--lav-3);color:#9A93AC;box-shadow:none;cursor:not-allowed}
+.btn[disabled]:hover{transform:none;filter:none}
+.btn.inline{display:inline-block;width:auto;padding:15px 30px}
+
+/* hero */
+.hero{background:linear-gradient(180deg,#FBF8FF 0%,var(--lav) 100%);
+ padding:clamp(18px,2.4vw,26px) 0 clamp(20px,2.4vw,26px);text-align:center}
+.logo{width:62px;height:62px;margin:0 auto 13px;border-radius:50%;
+ background:radial-gradient(circle at 34% 30%,#A98BFF,#5B34D6 62%,#2E1470);
+ display:flex;align-items:center;justify-content:center;color:#fff;
+ font-family:var(--disp);font-weight:900;font-size:13px;line-height:1.05;letter-spacing:.02em;
+ box-shadow:0 8px 22px rgba(91,52,214,.34)}
+.badge{display:inline-flex;align-items:center;gap:8px;background:var(--green-bg);color:var(--green);
+ font-family:var(--disp);font-weight:800;font-size:13px;letter-spacing:.09em;text-transform:uppercase;
+ padding:8px 15px;border-radius:var(--r-pill);margin-bottom:12px}
+.hero h1{font-size:clamp(32px,5.2vw,50px);font-weight:900;letter-spacing:-.02em}
+.hero h1 .pl{color:var(--violet-d)}
+.hero .vip{display:block;font-size:clamp(24px,3.9vw,36px);margin-top:5px;color:var(--violet)}
+.hero .lede{max-width:600px;margin:13px auto 0;color:#2B2436;font-size:clamp(16px,1.8vw,18px)}
+
+/* video */
+.player{position:relative;width:100%;aspect-ratio:16/9;border-radius:var(--r);overflow:hidden;
+ background:linear-gradient(150deg,#241146,#160A2E 60%,#0E0620);
+ display:flex;flex-direction:column;align-items:center;justify-content:center;
+ border:1px solid #2A1856;text-align:center;padding:24px}
+.player .tag{position:absolute;top:14px;left:14px;background:rgba(255,255,255,.13);
+ color:#D9CCFF;font-family:var(--disp);font-weight:800;font-size:10.5px;letter-spacing:.14em;
+ text-transform:uppercase;padding:6px 11px;border-radius:20px;backdrop-filter:blur(4px)}
+.player .dur{position:absolute;bottom:14px;right:14px;background:rgba(0,0,0,.5);color:#fff;
+ font-size:12px;font-weight:600;padding:4px 10px;border-radius:6px}
+.player .play{width:74px;height:74px;border-radius:50%;background:rgba(255,255,255,.94);
+ display:flex;align-items:center;justify-content:center;margin-bottom:18px;
+ box-shadow:0 8px 26px rgba(0,0,0,.34);cursor:pointer;transition:transform .15s}
+.player .play:hover{transform:scale(1.06)}
+.player .play svg{margin-left:5px}
+.player .pt{color:#fff;font-family:var(--disp);font-weight:800;font-size:clamp(17px,2.2vw,23px)}
+.player .ps{color:#B9A8E8;font-size:14px;margin-top:7px}
+.player .bar{position:absolute;left:0;right:0;bottom:0;height:4px;background:rgba(255,255,255,.16)}
+.player .bar i{display:block;height:100%;width:0;background:var(--violet)}
+.vidcap{text-align:center;color:var(--mute);font-size:14px;margin-top:12px}
+
+/* two actions */
+.two{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.act{padding:28px 26px 30px;display:flex;flex-direction:column}
+.act .ico{width:48px;height:48px;border-radius:13px;background:var(--lav-2);
+ display:flex;align-items:center;justify-content:center;color:var(--violet);margin-bottom:16px}
+.act h3{font-size:21px;font-weight:800;margin-bottom:9px}
+.act .p{color:var(--mute);font-size:15px;margin-bottom:20px}
+.act .when{background:var(--lav-2);border-radius:var(--r);padding:14px 16px;text-align:center;
+ margin-top:16px}
+.act .when b{display:block;font-family:var(--disp);font-weight:800;font-size:16px;color:var(--violet-ink)}
+.act .when span{font-size:14px;color:var(--mute)}
+.act .micro{font-size:13px;color:var(--mute-2);margin-top:14px}
+.act .spacer{flex:1}
+.hl{background:var(--lav-2);border-left:3px solid var(--violet);border-radius:0 10px 10px 0;
+ padding:11px 14px;font-size:13.5px;color:#3A3050;margin-top:16px}
+
+/* sms mock */
+.phone{background:#F1F0F4;border-radius:var(--r);padding:16px;border:1px solid var(--line)}
+.phone .hdr{font-family:var(--disp);font-weight:800;font-size:12px;color:var(--mute-2);
+ text-align:center;letter-spacing:.08em;text-transform:uppercase;margin-bottom:13px}
+.bub{max-width:88%;padding:11px 14px;border-radius:17px;font-size:14.5px;line-height:1.45}
+.bub.them{background:#E6E4EA;color:#1B1B1F;border-bottom-left-radius:5px}
+.bub.me{background:var(--violet);color:#fff;margin-left:auto;margin-top:9px;
+ border-bottom-right-radius:5px;font-weight:700;max-width:40%;text-align:center}
+.yourresp{font-size:11.5px;color:var(--mute-2);text-align:right;margin-top:9px;
+ font-weight:600;letter-spacing:.05em;text-transform:uppercase}
+
+/* form */
+.formwrap{padding:0;overflow:hidden}
+.fhead{padding:26px 28px 0}
+.prog{height:6px;background:var(--lav-3);border-radius:99px;overflow:hidden;margin:16px 0 8px}
+.prog i{display:block;height:100%;background:var(--violet);border-radius:99px;
+ width:25%;transition:width .35s cubic-bezier(.4,0,.2,1)}
+.pmeta{display:flex;justify-content:space-between;align-items:baseline;
+ font-family:var(--disp);font-weight:800;font-size:13px;color:var(--violet)}
+.pmeta .r{color:var(--mute-2);font-weight:600;font-family:var(--body);font-size:13px}
+.fbody{padding:26px 28px 8px}
+.stepname{font-family:var(--disp);font-weight:900;font-size:22px;margin-bottom:4px}
+.stepsub{color:var(--mute);font-size:14.5px;margin-bottom:24px}
+.q{margin-bottom:28px}
+.q > label,.qlab{display:block;font-family:var(--disp);font-weight:800;font-size:17px;
+ color:var(--violet-ink);margin-bottom:6px;line-height:1.35}
+.help{color:var(--mute);font-size:14px;margin-bottom:13px}
+.egs{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:13px}
+.eg{background:var(--lav-2);color:#4B4363;font-size:12.5px;padding:6px 11px;border-radius:20px;
+ border:1px solid var(--line)}
+input[type=text],textarea{width:100%;border:1.5px solid var(--line);border-radius:12px;
+ padding:14px 15px;font-family:inherit;font-size:15.5px;color:var(--ink);background:#FCFBFE;
+ resize:vertical}
+input[type=text]:focus,textarea:focus{outline:none;border-color:var(--violet);
+ box-shadow:0 0 0 4px rgba(122,90,248,.13);background:#fff}
+textarea{min-height:96px;line-height:1.55}
+.prefill{background:var(--green-bg);border:1px solid #BFE8D1;border-radius:var(--r);
+ padding:18px 20px;margin-bottom:26px}
+.prefill .t{display:flex;align-items:center;gap:8px;font-family:var(--disp);font-weight:800;
+ font-size:14px;color:var(--green);margin-bottom:13px}
+.pf{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:11px}
+.pf div{background:#fff;border-radius:9px;padding:10px 12px;border:1px solid #D6EEE0}
+.pf span{display:block;font-size:11px;color:var(--mute-2);font-weight:600;
+ letter-spacing:.06em;text-transform:uppercase}
+.pf b{font-size:14px;color:var(--violet-ink);font-weight:600;font-family:var(--body)}
+.pf-edit{background:none;border:none;color:var(--violet);font-size:13px;font-weight:600;
+ cursor:pointer;padding:0;margin-top:12px;text-decoration:underline}
+
+/* choice cards */
+.opts{display:grid;grid-template-columns:repeat(auto-fill,minmax(158px,1fr));gap:10px}
+.opts.wide{grid-template-columns:repeat(auto-fill,minmax(210px,1fr))}
+.opt{position:relative;border:1.5px solid var(--line);background:#FCFBFE;border-radius:12px;
+ padding:14px 14px 14px 42px;font-size:14.5px;cursor:pointer;transition:.14s;
+ display:flex;align-items:center;min-height:52px;user-select:none;color:#2B2436}
+.opt:hover{border-color:#C9B9FB;background:#fff}
+.opt::before{content:"";position:absolute;left:14px;top:50%;transform:translateY(-50%);
+ width:18px;height:18px;border:1.5px solid #CFC6E4;border-radius:5px;background:#fff;transition:.14s}
+.opt.sel{border-color:var(--violet);background:#F4F0FF;color:var(--violet-ink);font-weight:600}
+.opt.sel::before{background:var(--violet);border-color:var(--violet)}
+.opt.sel::after{content:"";position:absolute;left:20px;top:calc(50% - 5px);width:5px;height:9px;
+ border:solid #fff;border-width:0 2px 2px 0;transform:rotate(45deg)}
+.opt.dis{opacity:.42;cursor:not-allowed}
+.opt.radio::before{border-radius:50%}
+.opt.radio.sel::after{left:19px;top:calc(50% - 4px)}
+.cnt{font-size:13px;color:var(--mute-2);margin-top:11px;font-weight:600}
+.cnt.max{color:var(--violet)}
+
+/* uploader */
+.drop{border:2px dashed #C9B9FB;background:#FAF7FF;border-radius:var(--r);
+ padding:34px 22px;text-align:center;cursor:pointer;transition:.16s}
+.drop:hover,.drop.over{background:#F2ECFF;border-color:var(--violet)}
+.drop .di{width:52px;height:52px;border-radius:14px;background:#fff;display:flex;
+ align-items:center;justify-content:center;margin:0 auto 13px;color:var(--violet);
+ box-shadow:var(--sh)}
+.drop .dt{font-family:var(--disp);font-weight:800;font-size:16.5px;color:var(--violet-ink)}
+.drop .ds{color:var(--mute);font-size:14px;margin-top:5px}
+.drop .db{display:inline-block;margin-top:14px;background:var(--violet);color:#fff;
+ font-family:var(--disp);font-weight:800;font-size:14px;padding:11px 22px;border-radius:var(--r-pill)}
+.thumbs{display:grid;grid-template-columns:repeat(auto-fill,minmax(104px,1fr));gap:10px;margin-top:14px}
+.thumb{position:relative;aspect-ratio:1;border-radius:11px;background:var(--lav-2);
+ border:1px solid var(--line);display:flex;flex-direction:column;align-items:center;
+ justify-content:center;color:var(--mute-2);font-family:var(--disp);font-weight:800;font-size:10.5px;
+ letter-spacing:.1em;overflow:hidden}
+.thumb.filled{background:linear-gradient(140deg,#EDE5FF,#DCD0F8);border-color:#C9B9FB;color:var(--violet-d)}
+.thumb .x{position:absolute;top:5px;right:5px;width:20px;height:20px;border-radius:50%;
+ background:rgba(20,6,38,.62);color:#fff;font-size:12px;display:flex;align-items:center;
+ justify-content:center;cursor:pointer;line-height:1}
+.thumb .x:hover{background:var(--violet-ink)}
+.thumb.add{border-style:dashed;cursor:pointer;color:var(--violet)}
+.thumb.add:hover{background:#F2ECFF}
+.reveal{display:none;margin-top:20px;padding-top:20px;border-top:1px solid var(--line)}
+.reveal.on{display:block;animation:fade .3s ease}
+@keyframes fade{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:none}}
+
+.fnav{display:flex;gap:12px;padding:20px 28px 28px;border-top:1px solid var(--line);
+ background:#FCFBFE;margin-top:14px}
+.fnav .btn{flex:1}
+.fnav .btn.back{flex:0 0 122px}
+
+/* done state */
+.done-state{display:none;text-align:center;padding:52px 28px 56px}
+.done-state.on{display:block}
+.tick{width:80px;height:80px;border-radius:50%;background:var(--green-bg);color:var(--green);
+ display:flex;align-items:center;justify-content:center;margin:0 auto 22px;
+ animation:pop .5s cubic-bezier(.34,1.56,.64,1)}
+@keyframes pop{0%{transform:scale(0)}100%{transform:scale(1)}}
+.flow{display:grid;gap:9px;max-width:430px;margin:28px auto 0;text-align:left}
+.flow .fi{display:flex;align-items:center;gap:13px;background:var(--lav-2);border-radius:12px;
+ padding:13px 16px}
+.flow .fi b{width:26px;height:26px;border-radius:50%;background:var(--violet);color:#fff;
+ font-family:var(--disp);font-size:12.5px;display:flex;align-items:center;justify-content:center;flex:none}
+.flow .fi span{font-size:14.5px;color:#2B2436}
+.flow .ar{text-align:center;color:#C6BBE4;font-size:15px;line-height:.6}
+.confetti{position:fixed;inset:0;pointer-events:none;z-index:60;overflow:hidden;display:none}
+.confetti.on{display:block}
+.cf{position:absolute;width:9px;height:15px;opacity:0;animation:fall linear forwards}
+@keyframes fall{0%{opacity:1;transform:translateY(-20px) rotate(0)}
+100%{opacity:0;transform:translateY(102vh) rotate(700deg)}}
+
+/* training */
+.training{background:linear-gradient(165deg,#1B0B38,#140626 55%,#0D041C);color:#EDE6FB}
+.training h2,.training .h2{color:#fff}
+.training .sub{color:#B9A8E8}
+.training .rule{color:#8E7DC0}
+.training .rule::before,.training .rule::after{background:rgba(255,255,255,.14)}
+.training .eyebrow{color:#C4B0FF}
+.training .eyebrow .dot{background:#C4B0FF}
+.tclose{text-align:center;color:#C4B0FF;font-size:16px;font-style:italic;margin:30px 0 22px}
+
+/* success center */
+.grid3{display:grid;grid-template-columns:repeat(auto-fit,minmax(288px,1fr));gap:16px;
+ max-width:760px;margin:0 auto}
+.rc{padding:24px;display:flex;flex-direction:column}
+.rc .rt{font-family:var(--disp);font-weight:900;font-size:12px;letter-spacing:.13em;
+ text-transform:uppercase;color:var(--mute-2);margin-bottom:13px}
+.rc h3{font-size:19px;font-weight:800;margin-bottom:9px}
+.rc .rp{color:var(--mute);font-size:14.5px;margin-bottom:18px}
+.rc .sp{flex:1}
+.rc .pill{align-self:flex-start}
+.pill{display:inline-flex;align-items:center;gap:7px;font-family:var(--disp);font-weight:800;
+ font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;padding:6px 12px;border-radius:20px}
+.pill.build{background:var(--amber-bg);color:var(--amber)}
+.pill.ready{background:var(--green-bg);color:var(--green)}
+.loader{height:7px;background:var(--lav-3);border-radius:99px;overflow:hidden;margin:18px 0 6px}
+.loader i{display:block;height:100%;width:38%;background:var(--violet);border-radius:99px;
+ animation:crawl 2.4s ease-in-out infinite}
+@keyframes crawl{0%{margin-left:-38%}100%{margin-left:100%}}
+.dual{font-size:12.5px;color:var(--mute-2);margin-top:11px;font-style:italic}
+
+/* step headers */
+.stephead{text-align:center;margin-bottom:26px}
+#step1 .stephead{margin-bottom:20px}
+#step1 .stepchip{margin-bottom:12px}
+.stepchip{display:inline-flex;align-items:center;gap:9px;background:var(--violet);color:#fff;
+ font-family:var(--disp);font-weight:900;font-size:12px;letter-spacing:.16em;text-transform:uppercase;
+ padding:8px 17px 8px 8px;border-radius:var(--r-pill);margin-bottom:16px;
+ box-shadow:0 6px 18px rgba(122,90,248,.30)}
+.stepchip .sn{display:flex;align-items:center;justify-content:center;width:22px;height:22px;
+ flex:none;border-radius:50%;background:rgba(255,255,255,.24);font-size:11.5px;letter-spacing:0}
+.training .stepchip{background:rgba(196,176,255,.16);color:#DCD0FF;
+ border:1px solid rgba(196,176,255,.30);box-shadow:none}
+.training .stepchip .sn{background:rgba(196,176,255,.22)}
+.substep{display:inline-flex;align-items:center;gap:8px;font-family:var(--disp);font-weight:900;
+ font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--violet);
+ background:var(--lav-2);border:1px solid var(--line);padding:5px 12px;border-radius:20px;
+ margin-bottom:14px;align-self:flex-start}
+
+/* recap */
+.recap{display:grid;gap:12px;max-width:720px;margin:34px auto 0;text-align:left}
+.ri{display:flex;align-items:flex-start;gap:16px;background:#fff;border:1px solid var(--line);
+ border-radius:var(--r);padding:18px 20px;box-shadow:var(--sh)}
+.ri .rn{flex:none;width:38px;height:38px;border-radius:50%;background:var(--violet);color:#fff;
+ font-family:var(--disp);font-weight:900;font-size:15px;display:flex;align-items:center;
+ justify-content:center}
+.ri .rk{font-family:var(--disp);font-weight:900;font-size:11px;letter-spacing:.14em;
+ text-transform:uppercase;color:var(--mute-2);display:block;margin-bottom:4px}
+.ri .rv{font-family:var(--disp);font-weight:800;font-size:17px;color:var(--violet-ink);display:block;
+ line-height:1.3}
+.ri .rd{font-size:14.5px;color:var(--mute);margin-top:5px}
+.ri .rx{flex:1}
+.ri{transition:transform .12s,border-color .12s,box-shadow .12s}
+a.ri:hover{border-color:#C9B9FB;transform:translateY(-2px);box-shadow:var(--sh-lg)}
+
+/* timeline */
+.tl{display:grid;grid-template-columns:repeat(5,1fr);gap:0;margin-top:34px;position:relative}
+.tl::before{content:"";position:absolute;top:19px;left:10%;right:10%;height:2px;background:var(--lav-3)}
+.tli{text-align:center;position:relative;padding:0 6px}
+.tli .d{width:38px;height:38px;border-radius:50%;background:#fff;border:2px solid var(--lav-3);
+ margin:0 auto 13px;display:flex;align-items:center;justify-content:center;
+ font-family:var(--disp);font-weight:900;font-size:11px;color:var(--mute-2);position:relative;z-index:1}
+.tli.on .d{border-color:var(--violet);background:var(--violet);color:#fff;
+ box-shadow:0 0 0 5px rgba(122,90,248,.15)}
+.tli .k{font-family:var(--disp);font-weight:900;font-size:11.5px;letter-spacing:.13em;
+ text-transform:uppercase;color:var(--violet);display:block;margin-bottom:5px}
+.tli.off .k{color:var(--mute-2)}
+.tli .v{font-size:14px;color:#3A3050;line-height:1.4}
+
+/* final */
+footer{background:var(--lav);padding:26px 0 34px;text-align:center;color:var(--mute-2);font-size:13px}
+footer a{color:var(--mute-2)}
+
+/* toast */
+.toast{position:fixed;left:50%;bottom:26px;transform:translate(-50%,120%);background:var(--violet-ink);
+ color:#fff;padding:14px 22px;border-radius:var(--r-pill);font-size:14.5px;font-weight:600;
+ box-shadow:var(--sh-lg);z-index:70;transition:transform .3s cubic-bezier(.34,1.3,.64,1);
+ display:flex;align-items:center;gap:10px;max-width:92vw}
+.toast.on{transform:translate(-50%,0)}
+
+@media (max-width:860px){
+  .two{grid-template-columns:1fr}
+  .tl{grid-template-columns:1fr;gap:0}
+  .tl::before{display:none}
+  .tli{display:flex;align-items:flex-start;gap:15px;text-align:left;padding:0 0 20px;position:relative}
+  .tli::before{content:"";position:absolute;left:18px;top:38px;bottom:0;width:2px;background:var(--lav-3)}
+  .tli:last-child::before{display:none}
+  .tli .d{margin:0;flex:none}
+}
+@media (max-width:560px){
+  .wrap{padding:0 16px}
+  .fhead,.fbody,.fnav{padding-left:18px;padding-right:18px}
+  .act{padding:22px 20px 24px}
+  .opts{grid-template-columns:1fr 1fr}
+  .fnav{flex-direction:column-reverse}
+  .fnav .btn.back{flex:1}
+  .bub.me{max-width:56%}
+}
+</style>
+</head>
+<body>
+
+<div class="demo">Demo mockup &middot; sample data for Sarah Mitchell &middot; not a live page</div>
+<div class="topbar">&#9889; Your VIP seat is confirmed &#9889;</div>
+
+<!-- ============ 1. HERO ============ -->
+<header class="hero">
+  <div class="wrap">
+    <div class="logo">UGC<br>WORLD</div>
+    <div class="badge">&#10003;&nbsp; VIP Access Confirmed</div>
+    <h1>Congratulationsssss <span class="pl">&#127881;</span>
+      <span class="vip">You're officially VIP.</span></h1>
+    <p class="lede">Your VIP ticket is confirmed and we're ready to start building your
+      personalized creator portfolio.</p>
+  </div>
+</header>
+
+<!-- ============ 2. STEP ONE - CONFIRMATION VSL ============ -->
+<section id="step1" style="padding-top:0">
+  <div class="wrap narrow">
+    <div class="stephead">
+      <span class="stepchip"><span class="sn">1</span> Step One</span>
+      <h2 class="h2">Watch This Quick Video</h2>
+      <p class="sub">Gloria explains what happens next and how to get the most out of your VIP
+        ticket. Watch it before you do anything else.</p>
+    </div>
+    <div class="player" data-play>
+      <span class="tag">VIP confirmation video</span>
+      <div class="play"><svg width="24" height="24" viewBox="0 0 24 24" fill="#140626"><path d="M8 5v14l11-7z"/></svg></div>
+      <div class="pt">Watch this first</div>
+      <div class="ps">Gloria has a quick message for you &#127881;</div>
+      <span class="dur">3:04</span>
+      <div class="bar"><i></i></div>
+    </div>
+    <p class="vidcap">~3 minutes</p>
+  </div>
+</section>
+
+<!-- ============ 3. STEP TWO - CALENDAR + TEXT ============ -->
+<section id="step2" style="padding-top:14px">
+  <div class="wrap">
+    <div class="stephead">
+      <span class="stepchip"><span class="sn">2</span> Step Two</span>
+      <h2 class="h2">Add The Class To Your Calendar &amp; Reply To Our Text</h2>
+      <p class="sub">Two quick things. Both take under a minute and both matter.</p>
+    </div>
+    <div class="two">
+
+      <div class="card act">
+        <div class="ico"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M8 3v4M16 3v4M3 10h18"/></svg></div>
+        <span class="substep">2A &middot; Calendar</span>
+        <h3>Add The Workshop To Your Calendar</h3>
+        <p class="p">Add the live Creator Workshop to your calendar now so nothing gets in the way.</p>
+        <button class="btn" data-cal><span class="lab">ADD TO MY CALENDAR &rarr;</span></button>
+        <div class="when"><b>Sunday, August 30</b><span>2:00 PM Eastern &middot; 90 minutes</span></div>
+        <div class="spacer"></div>
+        <p class="micro">VIP works best when you actually show up with your portfolio ready.</p>
+      </div>
+
+      <div class="card act">
+        <div class="ico"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.4 8.4 0 01-9 8.4 8.4 8.4 0 01-3.8-.9L3 21l1.9-5.1A8.4 8.4 0 013.6 11a8.4 8.4 0 018.4-8.4h.5a8.4 8.4 0 018 8v.9z"/></svg></div>
+        <span class="substep">2B &middot; Text</span>
+        <h3>Reply To Our Text &#128241;</h3>
+        <p class="p">We just sent you a text. Reply <b>YES</b> so our team knows we have the right
+          number to send your portfolio to when it's finished.</p>
+        <div class="phone">
+          <div class="hdr">UGC World</div>
+          <div class="bub them">Hey Sarah! It's the UGC World team &#128075;<br><br>
+            Reply YES so we know we can reach you when your portfolio is ready &#127881;</div>
+          <div class="bub me">YES</div>
+          <div class="yourresp">Your response</div>
+        </div>
+        <div class="spacer"></div>
+        <div class="hl">Don't skip this. This is where we'll send your finished portfolio.</div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ============ 4. STEP THREE - APPLICATION ============ -->
+<section id="application">
+  <div class="wrap narrow center stephead" style="margin-bottom:26px">
+    <span class="stepchip"><span class="sn">3</span> Step Three</span>
+    <h2 class="h2">Answer These Questions So We Can Start Building Your
+      <span style="white-space:nowrap">Portfolio &#10024;</span></h2>
+    <p class="sub">Give us a few details about you and we'll use them to personalize your
+      positioning, niches, visuals and portfolio.</p>
+    <p class="sub" style="margin-top:14px"><b style="color:var(--violet-ink)">Takes about 5 minutes.</b>
+      &nbsp;Don't know your niche yet? Perfect. We'll help figure that out for you.</p>
+  </div>
+
+  <div class="wrap narrow">
+    <div class="card formwrap" id="form">
+
+      <div class="fhead">
+        <div class="pmeta"><span id="pstep">Part 1 of 4</span><span class="r" id="pname">Basic creator identity</span></div>
+        <div class="prog"><i id="pbar"></i></div>
+      </div>
+
+      <div class="fbody">
+
+        <!-- STEP 1 -->
+        <div class="fstep" data-step="1">
+          <div class="stepname">Basic creator identity</div>
+          <div class="stepsub">We already have some of this from your registration. Just check it looks right.</div>
+
+          <div class="prefill">
+            <div class="t"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+              Already saved from your registration</div>
+            <div class="pf">
+              <div><span>Name</span><b>Sarah Mitchell</b></div>
+              <div><span>Experience</span><b>Never created content</b></div>
+              <div><span>Goal</span><b>$2&ndash;4k/mo side income</b></div>
+              <div><span>Initial niche</span><b>Beauty / wellness</b></div>
+              <div><span>Age</span><b>35&ndash;44</b></div>
+              <div><span>Occupation</span><b>Nurse</b></div>
+              <div><span>Instagram</span><b>@sarahplaceholder</b></div>
+            </div>
+            <button class="pf-edit" data-toast="In the real page this opens an edit drawer.">Something wrong? Edit these</button>
+          </div>
+
+          <div class="q">
+            <label class="qlab">What's the best number for your portfolio?</label>
+            <p class="help">This is where we'll text you the moment it's ready.</p>
+            <input type="text" value="(316) 555-0148" inputmode="tel">
+          </div>
+        </div>
+
+        <!-- STEP 2 -->
+        <div class="fstep" data-step="2" hidden>
+          <div class="stepname">Your lifestyle &amp; interests</div>
+          <div class="stepsub">This is the part that makes your portfolio yours instead of a template.</div>
+
+          <div class="q">
+            <label class="qlab">Tell us a little about your life outside of work.</label>
+            <p class="help">Hobbies, family, pets, sports, travel, fitness, routines or anything you're obsessed with.</p>
+            <textarea placeholder="Two or three sentences is plenty."></textarea>
+          </div>
+
+          <div class="q">
+            <label class="qlab">What's something interesting about you that a brand probably wouldn't know from Instagram?</label>
+            <div class="egs">
+              <span class="eg">&ldquo;I've been a nurse for 15 years.&rdquo;</span>
+              <span class="eg">&ldquo;I've traveled to 30 countries.&rdquo;</span>
+              <span class="eg">&ldquo;I have three rescue dogs.&rdquo;</span>
+              <span class="eg">&ldquo;I'm a retired accountant.&rdquo;</span>
+              <span class="eg">&ldquo;I speak three languages.&rdquo;</span>
+            </div>
+            <textarea placeholder="One line is enough."></textarea>
+          </div>
+
+          <div class="q">
+            <label class="qlab">Where can you realistically film?</label>
+            <p class="help">Pick everything that applies.</p>
+            <div class="opts" data-multi>
+              <div class="opt">Kitchen</div><div class="opt">Living room</div><div class="opt">Bedroom</div>
+              <div class="opt">Bathroom</div><div class="opt">Home office</div><div class="opt">Gym</div>
+              <div class="opt">Car</div><div class="opt">Backyard</div><div class="opt">Outdoors</div>
+              <div class="opt">City</div><div class="opt">Workplace</div><div class="opt">Campus</div>
+              <div class="opt">Beach / pool</div><div class="opt">Somewhere else</div>
+            </div>
+          </div>
+
+          <div class="q">
+            <label class="qlab">What's part of your everyday life that could naturally show up on camera?</label>
+            <p class="help">Only pick what you'd genuinely be happy to include.</p>
+            <div class="opts" data-multi>
+              <div class="opt">My dog</div><div class="opt">My cat</div><div class="opt">Other pets</div>
+              <div class="opt">My kids</div><div class="opt">My partner</div><div class="opt">My car</div>
+              <div class="opt">My kitchen</div><div class="opt">Home gym</div><div class="opt">Gaming setup</div>
+              <div class="opt">My workspace</div><div class="opt">Outdoor space</div><div class="opt">Just me for now</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- STEP 3 -->
+        <div class="fstep" data-step="3" hidden>
+          <div class="stepname">Photos &amp; videos</div>
+          <div class="stepsub">The only part we genuinely can't do without you.</div>
+
+          <div class="q">
+            <label class="qlab">Upload 5&ndash;10 photos of yourself</label>
+            <p class="help">These don't need to be professional. Selfies, lifestyle photos, travel
+              photos, gym photos, work photos, pet photos &mdash; anything that feels like you.</p>
+            <div class="drop" id="drop">
+              <div class="di"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><path d="M17 8l-5-5-5 5M12 3v12"/></svg></div>
+              <div class="dt">Drag your photos here</div>
+              <div class="ds">or tap to choose from your phone &middot; JPG, PNG, HEIC</div>
+              <span class="db">Choose photos</span>
+            </div>
+            <div class="thumbs" id="thumbs"></div>
+            <div class="cnt" id="pcount">0 of 10 &middot; add at least 5</div>
+          </div>
+
+          <div class="q">
+            <label class="qlab">Do you already have videos of yourself?</label>
+            <p class="help">They do <b>not</b> need to be paid brand videos.</p>
+            <div class="opts wide" data-multi data-exclusive="zero" id="vidopts">
+              <div class="opt">TikToks / Reels</div>
+              <div class="opt">Personal videos</div>
+              <div class="opt">UGC / content</div>
+              <div class="opt">Talking-to-camera videos</div>
+              <div class="opt" data-zero>Nope &mdash; I'm completely starting from zero</div>
+            </div>
+
+            <div class="reveal" id="vidreveal">
+              <label class="qlab" style="font-size:15.5px">Upload your videos</label>
+              <p class="help">Up to 10. Anything you already have on your phone works.</p>
+              <div class="drop" id="vdrop">
+                <div class="di"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 10l5-3v10l-5-3z"/><rect x="3" y="6" width="12" height="12" rx="2"/></svg></div>
+                <div class="dt">Add videos</div>
+                <div class="ds">or tap to choose &middot; MP4, MOV</div>
+                <span class="db">Choose videos</span>
+              </div>
+              <div class="thumbs" id="vthumbs"></div>
+              <div class="cnt" id="vcount">0 of 10</div>
+
+              <label class="qlab" style="font-size:15.5px;margin-top:22px">Or paste TikTok / Reel / YouTube links</label>
+              <textarea placeholder="One link per line. No need to tidy them up."></textarea>
+            </div>
+          </div>
+        </div>
+
+        <!-- STEP 4 -->
+        <div class="fstep" data-step="4" hidden>
+          <div class="stepname">Brands &amp; content style</div>
+          <div class="stepsub">Last stretch. This shapes who we pitch you to.</div>
+
+          <div class="q">
+            <label class="qlab">What brands or products do you genuinely use and like?</label>
+            <p class="help">List 5&ndash;10. Example: Nike, CeraVe, Stanley, Oura, Apple.</p>
+            <textarea style="min-height:76px" placeholder="Just the names is fine."></textarea>
+          </div>
+
+          <div class="q">
+            <label class="qlab">What are your dream brands?</label>
+            <p class="help">Give us 3&ndash;5. If you have no idea, write &ldquo;help me choose.&rdquo;</p>
+            <input type="text" placeholder="help me choose">
+          </div>
+
+          <div class="q">
+            <label class="qlab">What kinds of content would you be comfortable creating?</label>
+            <div class="opts" data-multi>
+              <div class="opt">Talking to camera</div><div class="opt">Product demos</div>
+              <div class="opt">Testimonials</div><div class="opt">Voiceovers</div>
+              <div class="opt">Tutorials</div><div class="opt">Unboxings</div>
+              <div class="opt">Lifestyle videos</div><div class="opt">Photography</div>
+              <div class="opt">Comedy / skits</div><div class="opt">Hands-only</div>
+              <div class="opt">I'm not sure yet</div>
+            </div>
+          </div>
+
+          <div class="q">
+            <label class="qlab">Which 3 words describe your personality best?</label>
+            <div class="opts" data-multi data-max="3">
+              <div class="opt">Funny</div><div class="opt">Energetic</div><div class="opt">Warm</div>
+              <div class="opt">Calm</div><div class="opt">Professional</div><div class="opt">Educational</div>
+              <div class="opt">Relatable</div><div class="opt">Direct</div><div class="opt">Trendy</div>
+              <div class="opt">Casual</div><div class="opt">Athletic</div><div class="opt">Quirky</div>
+              <div class="opt">Premium</div><div class="opt">Outdoorsy</div><div class="opt">Inspirational</div>
+            </div>
+            <div class="cnt">0 of 3 chosen</div>
+          </div>
+
+          <div class="q">
+            <label class="qlab">What types of brands would you most like to create for?</label>
+            <p class="help">Choose up to 5.</p>
+            <div class="opts" data-multi data-max="5">
+              <div class="opt">Beauty / skincare</div><div class="opt">Hair</div><div class="opt">Fashion</div>
+              <div class="opt">Fitness</div><div class="opt">Wellness</div><div class="opt">Supplements</div>
+              <div class="opt">Food / beverage</div><div class="opt">Home</div><div class="opt">Parenting</div>
+              <div class="opt">Pets</div><div class="opt">Tech / apps / AI</div><div class="opt">Travel / hotels</div>
+              <div class="opt">Outdoors</div><div class="opt">Gaming</div><div class="opt">Automotive</div>
+              <div class="opt">Education</div><div class="opt">Productivity</div><div class="opt">Finance</div>
+              <div class="opt">Lifestyle</div><div class="opt">Not sure yet</div>
+            </div>
+            <div class="cnt">0 of 5 chosen</div>
+          </div>
+
+          <div class="q">
+            <label class="qlab">Anything you don't want included? <span style="font-weight:600;color:var(--mute-2);font-size:14px">(optional)</span></label>
+            <p class="help">Industries, personal details, family information, photos, topics or
+              types of products you're uncomfortable promoting.</p>
+            <textarea style="min-height:76px" placeholder="Leave blank if nothing comes to mind."></textarea>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="fnav" id="fnav">
+        <button class="btn ghost back" id="back" hidden><span class="lab">Back</span></button>
+        <button class="btn" id="next"><span class="lab">Continue &rarr;</span></button>
+      </div>
+
+      <!-- DONE -->
+      <div class="done-state" id="done">
+        <div class="tick"><svg width="38" height="38" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></div>
+        <h2 class="h2">That's everything &#127881;</h2>
+        <p class="sub" style="max-width:480px;margin-left:auto;margin-right:auto">Our team now has
+          what we need to start building your personalized creator portfolio.</p>
+        <div class="rule" style="margin-top:34px">What happens now</div>
+        <div class="flow">
+          <div class="fi"><b>1</b><span>We review your answers</span></div>
+          <div class="ar">&#9662;</div>
+          <div class="fi"><b>2</b><span>We identify your strongest creator positioning</span></div>
+          <div class="ar">&#9662;</div>
+          <div class="fi"><b>3</b><span>We build your personalized portfolio</span></div>
+          <div class="ar">&#9662;</div>
+          <div class="fi"><b>4</b><span>We text you when it's ready</span></div>
+        </div>
+        <p class="sub" style="margin-top:22px">Keep an eye on your phone &#128064;</p>
+        <a href="#training" class="btn inline" style="margin:26px auto 0"><span class="lab">START MY PRIVATE TRAINING &rarr;</span></a>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ============ 5. STEP FOUR - PRIVATE BONUS COURSE ============ -->
+<section class="training" id="training">
+  <div class="wrap narrow center stephead">
+    <span class="stepchip"><span class="sn">4</span> Step Four</span>
+    <h2 class="h2">Watch Your Private Creator Bonus Course</h2>
+    <p class="sub" style="max-width:600px;margin-left:auto;margin-right:auto">Our coaches are
+      building your portfolio right now. While they do, go through the
+      <b style="color:#fff">0 &rarr; First 4 Figures Creator Roadmap</b> so you know exactly how
+      to use it the moment it lands.</p>
+  </div>
+  <div class="wrap narrow" style="margin-top:30px">
+    <div class="player" data-play>
+      <span class="tag">VIP private training</span>
+      <div class="play"><svg width="24" height="24" viewBox="0 0 24 24" fill="#140626"><path d="M8 5v14l11-7z"/></svg></div>
+      <div class="pt">The full roadmap</div>
+      <div class="ps">Watch in one sitting or dip in and out</div>
+      <span class="dur">20:00</span>
+      <div class="bar"><i></i></div>
+    </div>
+
+    <p class="tclose">Now bring this foundation and your finished portfolio to the live workshop.</p>
+    <button class="btn" data-cal><span class="lab">ADD THE LIVE WORKSHOP TO MY CALENDAR</span>
+      <span class="sml">Sunday, August 30 &middot; 2:00 PM Eastern</span></button>
+  </div>
+</section>
+
+<!-- ============ 6. STEP FIVE - SUCCESS CENTER ============ -->
+<section id="center">
+  <div class="wrap center stephead" style="margin-bottom:28px">
+    <span class="stepchip"><span class="sn">5</span> Step Five</span>
+    <h2 class="h2">Got Time Before The Class? Go Through Your Creator Success Center</h2>
+    <p class="sub">Everything included with your VIP ticket lives here. Optional, but the creators
+      who dig in early always show up sharper.</p>
+  </div>
+  <div class="wrap">
+    <div class="grid3">
+
+      <div class="card rc">
+        <div class="rt">Your personalized portfolio</div>
+        <h3>Built around your background</h3>
+        <span class="pill build" id="pfpill">&#9679; Building&hellip;</span>
+        <div class="loader" id="pfload"><i></i></div>
+        <p class="rp" style="margin-top:10px" id="pftext">We'll text you when it's ready.</p>
+        <div class="sp"></div>
+        <button class="btn" id="pfbtn" disabled><span class="lab">VIEW PORTFOLIO</span></button>
+        <p class="dual"><button class="pf-edit" id="toggleready" style="margin:0">Demo: toggle the READY state</button></p>
+      </div>
+
+      <div class="card rc">
+        <div class="rt">Live workshop</div>
+        <h3>Sunday, August 30</h3>
+        <span class="pill ready">&#10003; Seat confirmed</span>
+        <p class="rp" style="margin-top:12px">2:00 PM Eastern &middot; 90 minutes. Bring your portfolio.</p>
+        <div class="sp"></div>
+        <button class="btn" data-cal><span class="lab">ADD TO CALENDAR</span></button>
+      </div>
+
+    </div>
+    <div class="center" style="margin-top:26px">
+      <a href="https://ugc-world.com/creator" target="_blank" rel="noopener" class="btn inline"
+         style="margin:0 auto"><span class="lab">OPEN MY SUCCESS CENTER &rarr;</span></a>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 7. RECAP OF THE STEPS ============ -->
+<section style="padding-top:0">
+  <div class="wrap center">
+    <h2 class="h2">Quick Recap Of Your 5 Steps</h2>
+    <p class="sub">Here's everything in one place so nothing gets missed.</p>
+    <div class="recap">
+
+      <a class="ri" href="#step1" style="text-decoration:none">
+        <span class="rn">1</span>
+        <span class="rx">
+          <span class="rk">Step One &middot; ~3 min</span>
+          <span class="rv">Watch the quick VIP video</span>
+          <span class="rd">Gloria explains what happens next.</span>
+        </span>
+      </a>
+
+      <a class="ri" href="#step2" style="text-decoration:none">
+        <span class="rn">2</span>
+        <span class="rx">
+          <span class="rk">Step Two &middot; 2 min</span>
+          <span class="rv">Add the class to your calendar and reply to our text</span>
+          <span class="rd">Sunday, August 30 &middot; 2:00 PM Eastern. Reply YES so we know where
+            to send your finished portfolio.</span>
+        </span>
+      </a>
+
+      <a class="ri" href="#application" style="text-decoration:none">
+        <span class="rn">3</span>
+        <span class="rx">
+          <span class="rk">Step Three &middot; ~5 min</span>
+          <span class="rv">Answer the questions so we can build your personalized portfolio</span>
+          <span class="rd">This is the one that actually starts the build. Do it first if you're short on time.</span>
+        </span>
+      </a>
+
+      <a class="ri" href="#training" style="text-decoration:none">
+        <span class="rn">4</span>
+        <span class="rx">
+          <span class="rk">Step Four &middot; ~20 min</span>
+          <span class="rv">Watch your private creator bonus course</span>
+          <span class="rd">Watch it while our coaches build your portfolio.</span>
+        </span>
+      </a>
+
+      <a class="ri" href="#center" style="text-decoration:none">
+        <span class="rn">5</span>
+        <span class="rx">
+          <span class="rk">Step Five &middot; optional</span>
+          <span class="rv">Go through your Creator Success Center</span>
+          <span class="rd">Everything else included with your VIP ticket.</span>
+        </span>
+      </a>
+
+    </div>
+    <div style="max-width:720px;margin:30px auto 0;text-align:left">
+      <div class="hl">Complete your application at least 24 hours before the workshop whenever
+        possible so we have the best chance of having everything ready before we go live.</div>
+      <div class="hl" style="margin-top:10px">Joining closer to the class? No problem. We'll start
+        immediately and complete your portfolio as quickly as possible within the stated
+        fulfillment window.</div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    Copyright &copy; UGC World 2026 &nbsp;|&nbsp; <a href="#">Terms of Service</a>
+    &nbsp;|&nbsp; <a href="#">Privacy Policy</a> &nbsp;|&nbsp; <a href="#">Contact</a>
+  </div>
+</footer>
+
+<div class="confetti" id="confetti"></div>
+<div class="toast" id="toast"><span id="toasttxt"></span></div>
+
+<script>
+const $ = (s,r=document)=>r.querySelector(s);
+const $$ = (s,r=document)=>[...r.querySelectorAll(s)];
+
+/* toast */
+let tt;
+function toast(m){
+  $('#toasttxt').textContent = m;
+  $('#toast').classList.add('on');
+  clearTimeout(tt); tt = setTimeout(()=>$('#toast').classList.remove('on'), 2600);
+}
+document.addEventListener('click', e=>{
+  const b = e.target.closest('[data-toast]');
+  if(b) toast(b.dataset.toast);
+});
+
+/* fake video players */
+$$('[data-play]').forEach(p=>{
+  p.addEventListener('click', ()=>{
+    const bar = $('.bar i', p);
+    if(!bar) return;
+    if(p.dataset.on){ p.dataset.on=''; bar.style.transition='none'; bar.style.width='0'; return; }
+    p.dataset.on='1';
+    bar.style.transition='width 9s linear';
+    requestAnimationFrame(()=>bar.style.width='100%');
+    toast('Demo only. The real video loads here.');
+  });
+});
+
+/* calendar */
+$$('[data-cal]').forEach(b=>b.addEventListener('click',()=>{
+  toast('Calendar file downloads here in the live version.');
+}));
+
+/* option groups */
+function wire(group){
+  const max = group.dataset.max ? +group.dataset.max : null;
+  const counter = group.parentElement.querySelector('.cnt');
+  const zeroOpt = $('[data-zero]', group);
+  group.addEventListener('click', e=>{
+    const o = e.target.closest('.opt');
+    if(!o || o.classList.contains('dis')) return;
+
+    if(zeroOpt){
+      if(o === zeroOpt){
+        const on = !o.classList.contains('sel');
+        $$('.opt',group).forEach(x=>x.classList.remove('sel'));
+        o.classList.toggle('sel', on);
+      } else {
+        zeroOpt.classList.remove('sel');
+        o.classList.toggle('sel');
+      }
+      const any = $$('.opt.sel',group).some(x=>!x.hasAttribute('data-zero'));
+      $('#vidreveal').classList.toggle('on', any);
+      return;
+    }
+
+    o.classList.toggle('sel');
+    if(max){
+      const n = $$('.opt.sel',group).length;
+      if(n > max){ o.classList.remove('sel'); toast('Pick up to '+max+'.'); }
+      const sel = $$('.opt.sel',group).length;
+      $$('.opt',group).forEach(x=>x.classList.toggle('dis', sel>=max && !x.classList.contains('sel')));
+      if(counter){
+        counter.textContent = sel+' of '+max+' chosen';
+        counter.classList.toggle('max', sel>=max);
+      }
+    }
+  });
+}
+$$('[data-multi]').forEach(wire);
+
+/* uploaders */
+function uploader(dropId, thumbsId, countId, label, max, minNote){
+  const drop = $('#'+dropId), box = $('#'+thumbsId), cnt = $('#'+countId);
+  let n = 0;
+  function render(){
+    box.innerHTML = '';
+    for(let i=1;i<=n;i++){
+      const d = document.createElement('div');
+      d.className = 'thumb filled';
+      d.innerHTML = label+' '+String(i).padStart(2,'0')+'<span class="x" data-i="'+i+'">&times;</span>';
+      box.appendChild(d);
+    }
+    if(n && n<max){
+      const a = document.createElement('div');
+      a.className='thumb add'; a.textContent='+ ADD';
+      a.addEventListener('click', add);
+      box.appendChild(a);
+    }
+    cnt.textContent = n+' of '+max + (minNote && n<5 ? ' · '+minNote : '');
+    cnt.classList.toggle('max', n>=5);
+  }
+  function add(){ if(n<max){ n++; render(); } else toast('That’s the maximum.'); }
+  drop.addEventListener('click', add);
+  ['dragover','dragenter'].forEach(ev=>drop.addEventListener(ev,e=>{e.preventDefault();drop.classList.add('over')}));
+  ['dragleave','drop'].forEach(ev=>drop.addEventListener(ev,e=>{e.preventDefault();drop.classList.remove('over')}));
+  drop.addEventListener('drop', add);
+  box.addEventListener('click', e=>{
+    const x = e.target.closest('.x');
+    if(x){ e.stopPropagation(); n = Math.max(0, n-1); render(); }
+  });
+  render();
+}
+uploader('drop','thumbs','pcount','PHOTO',10,'add at least 5');
+uploader('vdrop','vthumbs','vcount','VIDEO',10,'');
+
+/* multi-step */
+const NAMES = ['Basic creator identity','Your lifestyle & interests','Photos & videos','Brands & content style'];
+let step = 1; const TOTAL = 4;
+function show(scroll){
+  $$('.fstep').forEach(s=>s.hidden = (+s.dataset.step !== step));
+  $('#pstep').textContent = 'Part '+step+' of '+TOTAL;
+  $('#pname').textContent = NAMES[step-1];
+  $('#pbar').style.width = (step/TOTAL*100)+'%';
+  $('#back').hidden = step === 1;
+  $('#next').querySelector('.lab').innerHTML = step === TOTAL ? 'SUBMIT MY APPLICATION &rarr;' : 'Continue &rarr;';
+  if(scroll) $('#form').scrollIntoView({behavior:'smooth', block:'start'});
+}
+$('#next').addEventListener('click', ()=>{
+  if(step < TOTAL){ step++; show(true); return; }
+  $('.fhead').style.display='none';
+  $('.fbody').style.display='none';
+  $('#fnav').style.display='none';
+  $('#done').classList.add('on');
+  $('#form').scrollIntoView({behavior:'smooth', block:'start'});
+  fire();
+});
+$('#back').addEventListener('click', ()=>{ if(step>1){ step--; show(true); } });
+show(false);
+
+/* confetti */
+function fire(){
+  const c = $('#confetti'); c.classList.add('on'); c.innerHTML='';
+  const cols = ['#7A5AF8','#C4B0FF','#12A150','#FFD166','#6305A6'];
+  for(let i=0;i<110;i++){
+    const d = document.createElement('div');
+    d.className='cf';
+    d.style.left = Math.random()*100+'vw';
+    d.style.background = cols[i%cols.length];
+    d.style.animationDuration = (2.4+Math.random()*1.9)+'s';
+    d.style.animationDelay = (Math.random()*.7)+'s';
+    if(i%3===0) d.style.borderRadius='50%';
+    c.appendChild(d);
+  }
+  setTimeout(()=>c.classList.remove('on'), 5200);
+}
+
+/* success-center demo toggle */
+let ready = false;
+$('#toggleready').addEventListener('click', ()=>{
+  ready = !ready;
+  const pill=$('#pfpill'), load=$('#pfload'), btn=$('#pfbtn'), txt=$('#pftext');
+  if(ready){
+    pill.className='pill ready'; pill.innerHTML='&#10003; Ready';
+    load.style.display='none';
+    txt.textContent='Your portfolio is live. We texted you the link too.';
+    btn.disabled=false;
+  } else {
+    pill.className='pill build'; pill.innerHTML='&#9679; Building&hellip;';
+    load.style.display='';
+    txt.textContent="We'll text you when it's ready.";
+    btn.disabled=true;
+  }
+});
+$('#pfbtn').addEventListener('click', ()=>toast('Opens the finished portfolio.'));
+
+</script>
+<script src="assets/annotate.js"></script>
+</body>
+</html>
